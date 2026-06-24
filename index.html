@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Home - Cultiva vida en casa</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <!-- LOGO -->
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-icon">🌿</span>
+                        <span class="logo-text">Green Home</span>
+                    </a>
+                </div>
+                
+                <!-- MENÚ PRINCIPAL -->
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active">Inicio</a></li>
+                    <li><a href="sobre-nosotros.html">Nosotros</a></li>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="beneficios.html">Beneficios</a></li>
+                    <li><a href="galeria.html">Galería</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+
+                <!-- ACCIONES (Login + Carrito) -->
+                <div class="nav-actions">
+                    <!-- Autenticación -->
+                    <div class="auth-wrapper">
+                        <!-- Botones de login/registro (cuando NO está logueado) -->
+                        <div class="auth-buttons" id="authButtons">
+                            <a href="login.html" class="btn-login">Iniciar Sesión</a>
+                            <a href="registro.html" class="btn-register">Registrarse</a>
+                        </div>
+
+                        <!-- Menú de usuario (cuando está logueado) -->
+                        <div class="user-menu-dropdown" id="userMenu" style="display: none;">
+                            <button class="user-menu-btn" onclick="toggleUserMenu()">
+                                <span class="user-avatar">👤</span>
+                                <span class="user-name" id="userNameDisplay">Usuario</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </button>
+                            <div class="dropdown-content" id="userDropdown">
+                                <a href="perfil.html">👤 Mi Perfil</a>
+                                <a href="mis-pedidos.html">📦 Mis Pedidos</a>
+                                <a href="admin.html" id="adminLink" style="display: none;">👑 Panel Admin</a>
+                                <hr>
+                                <a href="#" onclick="cerrarSesion()">🚪 Cerrar Sesión</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARRITO -->
+                    <div class="cart-icon-wrapper">
+                        <a href="carrito.html" class="cart-icon-btn" aria-label="Carrito">
+                            🛒
+                            <span class="cart-counter" id="cartCounter">0</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- HAMBURGER (mobile) -->
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== PANEL DEL CARRITO (SLIDE) ==================== -->
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-panel-header">
+            <h3>🛒 Tu Carrito</h3>
+            <button class="cart-close" onclick="toggleCarrito()">✕</button>
+        </div>
+        <div class="cart-panel-body" id="cartPanelBody">
+            <div class="empty-cart">
+                <span style="font-size: 3rem;">🛒</span>
+                <p>Tu carrito está vacío</p>
+                <a href="productos.html" class="btn-primary" style="margin-top: 16px; display: inline-block;">Explorar productos</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== OVERLAY ==================== -->
+    <div class="overlay" id="overlay" onclick="toggleCarrito()"></div>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">🌱 Cultivo sostenible</div>
+                <h1 class="hero-title">
+                    Cultiva vida, <br>
+                    <span class="highlight">cultiva Green Home</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Kits de cultivo 100% biodegradables para que tengas tu propio huerto en casa, 
+                    sin complicaciones y con todo lo que necesitas.
+                </p>
+                <div class="hero-buttons">
+                    <a href="productos.html" class="btn-primary">🌿 Explorar Kits</a>
+                    <a href="sobre-nosotros.html" class="btn-secondary">Conocer más</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">+5,000</span>
+                        <span class="stat-label">Clientes felices</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15,000+</span>
+                        <span class="stat-label">Plantas cultivadas</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Satisfacción</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-image-wrapper">
+                    <img src="images/hero-illustration.png" alt="Huerto casero Green Home" loading="lazy">
+                    <div class="floating-card card-1">
+                        <span>🌱</span>
+                        <span>100% biodegradable</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <span>🌿</span>
+                        <span>Fácil de cultivar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CATEGORÍAS ==================== -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">🛒 Categorías</span>
+                <h2>Encuentra tu kit ideal</h2>
+                <p>Selecciona la categoría que más te guste y comienza tu huerto</p>
+            </div>
+            <div class="categories-grid">
+                <a href="productos.html?categoria=kits" class="category-card">
+                    <div class="category-icon">🌱</div>
+                    <h3>Kits</h3>
+                    <p>Todo lo necesario para empezar</p>
+                </a>
+                <a href="productos.html?categoria=semillas" class="category-card">
+                    <div class="category-icon">🌾</div>
+                    <h3>Semillas</h3>
+                    <p>Variedad de semillas seleccionadas</p>
+                </a>
+                <a href="productos.html?categoria=macetas" class="category-card">
+                    <div class="category-icon">🪴</div>
+                    <h3>Macetas</h3>
+                    <p>Biodegradables y ecológicas</p>
+                </a>
+                <a href="productos.html?categoria=accesorios" class="category-card">
+                    <div class="category-icon">🧤</div>
+                    <h3>Accesorios</h3>
+                    <p>Todo para tu huerto</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PRODUCTOS DESTACADOS ==================== -->
+    <section class="featured-products">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">🌟 Destacados</span>
+                <h2>Nuestros Kits Más Vendidos</h2>
+                <p>Los favoritos de nuestra comunidad</p>
+            </div>
+            <div class="products-grid" id="productosDestacados">
+                <!-- Los productos se cargan con JavaScript -->
+            </div>
+            <div class="section-footer">
+                <a href="productos.html" class="btn-outline">Ver todos los kits →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== BENEFICIOS ==================== -->
+    <section class="benefits">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">✨ Beneficios</span>
+                <h2>¿Por qué elegir Green Home?</h2>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">🌍</div>
+                    <h3>Ecológico</h3>
+                    <p>Masetas 100% biodegradables y materiales sostenibles</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🧑‍🌾</div>
+                    <h3>Fácil de usar</h3>
+                    <p>Instrucciones paso a paso, ideal para principiantes</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📦</div>
+                    <h3>Envío rápido</h3>
+                    <p>Recibe tu kit en 3-5 días hábiles en todo México</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🌱</div>
+                    <h3>Semillas seleccionadas</h3>
+                    <p>Alta germinación y adaptadas al clima mexicano</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💚</div>
+                    <h3>Soporte personalizado</h3>
+                    <p>Asesoría para que tu huerto crezca saludable</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">♻️</div>
+                    <h3>Compromiso ambiental</h3>
+                    <p>Plantamos un árbol por cada kit vendido</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TESTIMONIOS ==================== -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">💬 Testimonios</span>
+                <h2>Lo que dicen nuestros clientes</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        <div class="stars">★★★★★</div>
+                        <p>"Compré el kit de hierbas y en una semana ya tenía mis primeros brotes. ¡Es increíblemente fácil!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/user1.jpg" alt="Ana Martínez" loading="lazy">
+                        <div>
+                            <h4>Ana Martínez</h4>
+                            <span>CDMX</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item featured">
+                    <div class="testimonial-content">
+                        <div class="stars">★★★★★</div>
+                        <p>"Las macetas biodegradables son una maravilla. Mis plantas crecen sanas y fuertes, ¡y no genero basura!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/user2.jpg" alt="Carlos Ruiz" loading="lazy">
+                        <div>
+                            <h4>Carlos Ruiz</h4>
+                            <span>Guadalajara</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item">
+                    <div class="testimonial-content">
+                        <div class="stars">★★★★★</div>
+                        <p>"Green Home me ha enseñado a conectar con la naturaleza desde mi balcón. ¡Recomiendo 100%!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/user3.jpg" alt="Laura Gómez" loading="lazy">
+                        <div>
+                            <h4>Laura Gómez</h4>
+                            <span>Monterrey</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CTA FINAL ==================== -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>¿Listo para empezar tu huerto?</h2>
+                <p>Únete a la comunidad Green Home y cultiva tu propio espacio verde</p>
+                <a href="contacto.html" class="btn-primary">Comienza ahora 🌱</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-wrapper">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-icon">🌿</span>
+                        <span class="logo-text">Green Home</span>
+                    </div>
+                    <p>Cultivando sueños verdes desde 2024</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram">📸</a>
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="TikTok">🎵</a>
+                        <a href="#" aria-label="YouTube">▶️</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Enlaces</h4>
+                        <ul>
+                            <li><a href="index.html">Inicio</a></li>
+                            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+                            <li><a href="productos.html">Productos</a></li>
+                            <li><a href="contacto.html">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="faq.html">Preguntas Frecuentes</a></li>
+                            <li><a href="#">Política de Envíos</a></li>
+                            <li><a href="#">Devoluciones</a></li>
+                            <li><a href="#">Aviso de Privacidad</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Contacto</h4>
+                        <ul>
+                            <li><a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a></li>
+                            <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
+                            <li>CDMX, México</li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Horario</h4>
+                        <ul>
+                            <li>Lun - Vie: 9:00 - 18:00</li>
+                            <li>Sáb: 10:00 - 14:00</li>
+                            <li>Domingo: Cerrado</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Green Home. Todos los derechos reservados. 🌱</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== BOTÓN SCROLL TOP ==================== -->
+    <button class="scroll-top" id="scrollTop" aria-label="Volver arriba">↑</button>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

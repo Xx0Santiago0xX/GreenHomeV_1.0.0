@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beneficios - Green Home</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- ==================== NAVBAR ==================== -->
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <!-- LOGO -->
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-icon">🌿</span>
+                        <span class="logo-text">Green Home</span>
+                    </a>
+                </div>
+                
+                <!-- MENÚ PRINCIPAL -->
+                <ul class="nav-menu">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="sobre-nosotros.html">Nosotros</a></li>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="beneficios.html" class="active">Beneficios</a></li>
+                    <li><a href="galeria.html">Galería</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+
+                <!-- ACCIONES (Login + Carrito) -->
+                <div class="nav-actions">
+                    <!-- Autenticación -->
+                    <div class="auth-wrapper">
+                        <!-- Botones de login/registro (cuando NO está logueado) -->
+                        <div class="auth-buttons" id="authButtons">
+                            <a href="login.html" class="btn-login">Iniciar Sesión</a>
+                            <a href="registro.html" class="btn-register">Registrarse</a>
+                        </div>
+
+                        <!-- Menú de usuario (cuando está logueado) -->
+                        <div class="user-menu-dropdown" id="userMenu" style="display: none;">
+                            <button class="user-menu-btn" onclick="toggleUserMenu()">
+                                <span class="user-avatar">👤</span>
+                                <span class="user-name" id="userNameDisplay">Usuario</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </button>
+                            <div class="dropdown-content" id="userDropdown">
+                                <a href="perfil.html">👤 Mi Perfil</a>
+                                <a href="mis-pedidos.html">📦 Mis Pedidos</a>
+                                <a href="admin.html" id="adminLink" style="display: none;">👑 Panel Admin</a>
+                                <hr>
+                                <a href="#" onclick="cerrarSesion()">🚪 Cerrar Sesión</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARRITO -->
+                    <div class="cart-icon-wrapper">
+                        <a href="carrito.html" class="cart-icon-btn" aria-label="Carrito">
+                            🛒
+                            <span class="cart-counter" id="cartCounter">0</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- HAMBURGER (mobile) -->
+                <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</nav>
+    <!-- Cart Panel -->
+    <div class="cart-panel" id="cartPanel">...</div>
+    <div class="overlay" id="overlay" onclick="toggleCarrito()"></div>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>✨ Beneficios</h1>
+            <p>Descubre por qué Green Home es la mejor opción para tu huerto</p>
+        </div>
+    </section>
+
+    <section class="benefits-page">
+        <div class="container">
+            <div class="benefits-grid-full">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌍</div>
+                    <h3>100% Ecológico</h3>
+                    <p>Nuestras macetas son biodegradables y nuestros materiales son sostenibles. Cuidamos el planeta mientras tú cultivas.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧑‍🌾</div>
+                    <h3>Fácil de Usar</h3>
+                    <p>Incluye instrucciones paso a paso. Ideal para principiantes que quieren empezar su huerto sin complicaciones.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📦</div>
+                    <h3>Envío Rápido</h3>
+                    <p>Recibe tu kit en 3-5 días hábiles en toda la República Mexicana. Empaque seguro y discreto.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌱</div>
+                    <h3>Semillas Seleccionadas</h3>
+                    <p>Semillas de alta germinación, adaptadas al clima mexicano. Cultiva con éxito desde el primer intento.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💚</div>
+                    <h3>Soporte Personalizado</h3>
+                    <p>Asesoría gratuita para que tu huerto crezca saludable. Estamos aquí para ayudarte en cada paso.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">♻️</div>
+                    <h3>Compromiso Ambiental</h3>
+                    <p>Por cada kit vendido, plantamos un árbol. Tu compra tiene un impacto positivo en el planeta.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">...</footer>
+    <script src="js/main.js"></script>
+</body>
+</html>

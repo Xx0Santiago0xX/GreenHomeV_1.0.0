@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes - Green Home</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ==================== NAVBAR ==================== -->
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-wrapper">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-icon">🌿</span>
+                    <span class="logo-text">Green Home</span>
+                </a>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="sobre-nosotros.html">Nosotros</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="beneficios.html">Beneficios</a></li>
+                <li><a href="galeria.html">Galería</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contacto.html" class="btn-contact">Contacto</a></li>
+            </ul>
+
+     <!-- CARRITO - Enlace a carrito.html -->
+<div class="cart-icon-wrapper">
+    <a href="carrito.html" class="cart-icon-btn" aria-label="Carrito">
+        🛒
+        <span class="cart-counter" id="cartCounter">0</span>
+    </a>
+</div>
+
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</nav>
+    <!-- Cart Panel -->
+    <div class="cart-panel" id="cartPanel">...</div>
+    <div class="overlay" id="overlay" onclick="toggleCarrito()"></div>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>❓ Preguntas Frecuentes</h1>
+            <p>Resolvemos tus dudas sobre nuestros productos</p>
+        </div>
+    </section>
+
+    <section class="faq-page">
+        <div class="container">
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h3>🌱 ¿Cuánto tarda en germinar la semilla?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>El tiempo de germinación varía según el tipo de semilla. En promedio, las hierbas aromáticas germinan en 5-10 días, mientras que las verduras pueden tomar 7-14 días. Todas nuestras semillas vienen con instrucciones específicas.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h3>♻️ ¿Las macetas son realmente biodegradables?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sí, nuestras macetas están hechas de materiales 100% biodegradables como fibra de coco y papel reciclado. Se descomponen naturalmente en el suelo sin dejar residuos tóxicos.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h3>📦 ¿Hacen envíos a toda la República?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>¡Sí! Realizamos envíos a toda la República Mexicana a través de paquetería confiable. El tiempo de entrega es de 3-5 días hábiles.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h3>💚 ¿Qué hago si mi planta no crece?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Si tienes problemas con tu cultivo, contáctanos. Ofrecemos asesoría personalizada para ayudarte a identificar el problema y encontrar una solución. Estamos aquí para apoyarte.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h3>💰 ¿Cuál es el costo de envío?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>El costo de envío varía según tu ubicación. Realizamos envíos gratis en pedidos superiores a $500 MXN. Puedes calcular el costo exacto en el carrito de compras.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <h3>🔄 ¿Puedo devolver mi producto?</h3>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Si no estás satisfecho con tu compra, puedes devolver el producto dentro de los 15 días posteriores a la recepción. Consulta nuestra política de devoluciones para más detalles.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    function toggleFAQ(element) {
+        const item = element.closest('.faq-item');
+        const answer = item.querySelector('.faq-answer');
+        const icon = item.querySelector('.faq-icon');
+        
+        if (item.classList.contains('active')) {
+            item.classList.remove('active');
+            answer.style.maxHeight = '0';
+            icon.textContent = '+';
+        } else {
+            item.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            icon.textContent = '−';
+        }
+    }
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer">...</footer>
+    <script src="js/main.js"></script>
+</body>
+</html>

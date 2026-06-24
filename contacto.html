@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Green Home</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-icon">🌿</span>
+                        <span class="logo-text">Green Home</span>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="sobre-nosotros.html">Nosotros</a></li>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="beneficios.html">Beneficios</a></li>
+                    <li><a href="galeria.html">Galería</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contacto.html" class="active btn-contact">Contacto</a></li>
+                </ul>
+                <div class="cart-icon-wrapper">
+                    <button class="cart-icon-btn" onclick="toggleCarrito()" aria-label="Carrito">
+                        🛒
+                        <span class="cart-counter" id="cartCounter">0</span>
+                    </button>
+                </div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== CARRITO PANEL ==================== -->
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-panel-header">
+            <h3>🛒 Tu Carrito</h3>
+            <button class="cart-close" onclick="toggleCarrito()">✕</button>
+        </div>
+        <div class="cart-panel-body" id="cartPanelBody">
+            <div class="empty-cart">
+                <span style="font-size: 3rem;">🛒</span>
+                <p>Tu carrito está vacío</p>
+                <a href="productos.html" class="btn-primary" style="margin-top: 16px; display: inline-block;">Explorar productos</a>
+            </div>
+        </div>
+    </div>
+    <div class="overlay" id="overlay" onclick="toggleCarrito()"></div>
+
+    <!-- ==================== HERO CONTACTO ==================== -->
+    <section class="page-hero contact-hero">
+        <div class="container">
+            <h1>📩 Contáctanos</h1>
+            <p>¿Tienes alguna pregunta? Estamos aquí para ayudarte</p>
+        </div>
+    </section>
+
+    <!-- ==================== FORMULARIO DE CONTACTO ==================== -->
+    <section class="contact-page">
+        <div class="container">
+            <div class="contact-wrapper">
+                <!-- Información de contacto -->
+                <div class="contact-info">
+                    <div class="contact-info-card">
+                        <h3>📩 Información de contacto</h3>
+                        <p>Estamos disponibles para resolver tus dudas y ayudarte a comenzar tu huerto</p>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div>
+                                <h4>Email</h4>
+                                <a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div>
+                                <h4>Teléfono</h4>
+                                <a href="tel:+525512345678">+52 55 1234 5678</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <h4>Ubicación</h4>
+                                <p>CDMX, México</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">⏰</div>
+                            <div>
+                                <h4>Horario de atención</h4>
+                                <p>Lunes a Viernes: 9:00 - 18:00</p>
+                                <p>Sábados: 10:00 - 14:00</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-social">
+                            <h4>Síguenos</h4>
+                            <div class="social-links">
+                                <a href="#" aria-label="Instagram">📸</a>
+                                <a href="#" aria-label="Facebook">📘</a>
+                                <a href="#" aria-label="TikTok">🎵</a>
+                                <a href="#" aria-label="YouTube">▶️</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario - CON FORMPREE -->
+                <div class="contact-form-wrapper">
+                    <div class="contact-form-card">
+                        <h3>📝 Envíanos un mensaje</h3>
+                        <p>Completa el formulario y te responderemos lo antes posible</p>
+                        
+                        <!-- FORMULARIO CON FORMPREE -->
+                        <form id="contactForm" class="contact-form" 
+                              action="https://formspree.io/f/mjgqvjkp" 
+                              method="POST">
+                            
+                            <input type="hidden" name="_subject" value="Nuevo mensaje desde Green Home">
+                            <input type="hidden" name="_captcha" value="false">
+                            
+                            <div class="form-group">
+                                <label for="nombre">Nombre completo *</label>
+                                <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Correo electrónico *</label>
+                                    <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefono">Teléfono</label>
+                                    <input type="tel" id="telefono" name="telefono" placeholder="55 1234 5678">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="producto">Producto o servicio de interés *</label>
+                                <select id="producto" name="producto" required>
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="kit-hierbas">🌿 Kit Hierbas Aromáticas</option>
+                                    <option value="kit-verduras">🥬 Kit Mini Verduras</option>
+                                    <option value="kit-flores">🌸 Kit Flores de Temporada</option>
+                                    <option value="kit-completo">🌱 Kit Completo de Cultivo</option>
+                                    <option value="semillas">🌾 Semillas sueltas</option>
+                                    <option value="accesorios">🧤 Accesorios</option>
+                                    <option value="otro">❓ Otro</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mensaje">Mensaje *</label>
+                                <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Cuéntanos en qué podemos ayudarte..."></textarea>
+                            </div>
+
+                            <div class="form-group checkbox">
+                                <input type="checkbox" id="privacidad" name="privacidad" required>
+                                <label for="privacidad">Acepto la <a href="#">Política de Privacidad</a> *</label>
+                            </div>
+
+                            <button type="submit" class="btn-primary btn-block">
+                                <span>📩 Enviar mensaje</span>
+                                <span>→</span>
+                            </button>
+
+                            <div id="formMessage" class="form-message"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MAPA (Opcional) ==================== -->
+    <section class="map-section">
+        <div class="container">
+            <div class="map-placeholder">
+                <div class="map-content">
+                    <span>📍</span>
+                    <h3>Visítanos</h3>
+                    <p>Estamos en la CDMX, pero hacemos envíos a toda la República</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-wrapper">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-icon">🌿</span>
+                        <span class="logo-text">Green Home</span>
+                    </div>
+                    <p>Cultivando sueños verdes desde 2024</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram">📸</a>
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="TikTok">🎵</a>
+                        <a href="#" aria-label="YouTube">▶️</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Enlaces</h4>
+                        <ul>
+                            <li><a href="index.html">Inicio</a></li>
+                            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+                            <li><a href="productos.html">Productos</a></li>
+                            <li><a href="contacto.html">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="faq.html">Preguntas Frecuentes</a></li>
+                            <li><a href="#">Política de Envíos</a></li>
+                            <li><a href="#">Devoluciones</a></li>
+                            <li><a href="#">Aviso de Privacidad</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Contacto</h4>
+                        <ul>
+                            <li><a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a></li>
+                            <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
+                            <li>CDMX, México</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Green Home. Todos los derechos reservados. 🌱</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

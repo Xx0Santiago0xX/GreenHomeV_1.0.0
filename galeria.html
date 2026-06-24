@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería - Green Home</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ==================== NAVBAR ==================== -->
+<nav class="navbar">
+    <div class="container">
+        <div class="nav-wrapper">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-icon">🌿</span>
+                    <span class="logo-text">Green Home</span>
+                </a>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="sobre-nosotros.html">Nosotros</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="beneficios.html">Beneficios</a></li>
+                <li><a href="galeria.html">Galería</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contacto.html" class="btn-contact">Contacto</a></li>
+            </ul>
+
+            <!-- CARRITO FLOTANTE EN NAVBAR -->
+           <!-- CARRITO - Enlace a carrito.html -->
+<div class="cart-icon-wrapper">
+    <a href="carrito.html" class="cart-icon-btn" aria-label="Carrito">
+        🛒
+        <span class="cart-counter" id="cartCounter">0</span>
+    </a>
+</div>
+
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</nav>
+    <!-- Cart Panel -->
+    <div class="cart-panel" id="cartPanel">...</div>
+    <div class="overlay" id="overlay" onclick="toggleCarrito()"></div>
+
+    <section class="page-hero">
+        <div class="container">
+            <h1>📸 Galería</h1>
+            <p>Inspírate con los cultivos de nuestra comunidad</p>
+        </div>
+    </section>
+
+    <section class="gallery-page">
+        <div class="container">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/gallery-1.jpg" alt="Huerto en balcón" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Huerto en balcón</h4>
+                        <p>Por Ana Martínez</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery-2.jpg" alt="Hierbas aromáticas" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Hierbas aromáticas</h4>
+                        <p>Por Carlos Ruiz</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery-3.jpg" alt="Verduras en maceta" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Verduras en maceta</h4>
+                        <p>Por Laura Gómez</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery-4.jpg" alt="Flores de temporada" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Flores de temporada</h4>
+                        <p>Por Miguel Torres</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery-5.jpg" alt="Kit Green Home" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Kit Green Home</h4>
+                        <p>Por Sofía Ramírez</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery-6.jpg" alt="Cosecha casera" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Cosecha casera</h4>
+                        <p>Por Juan Pérez</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">...</footer>
+    <script src="js/main.js"></script>
+</body>
+</html>
