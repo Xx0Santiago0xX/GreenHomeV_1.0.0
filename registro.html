@@ -4,8 +4,840 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Green Home</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           RESET & VARIABLES - NUEVOS COLORES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #2D4A3E;
+            --color-primary-light: #4A6B5A;
+            --color-primary-lighter: #7BA38D;
+            --color-accent: #D4A373;
+            --color-accent-light: #E8C9A8;
+            --color-dark: #2D4A3E;
+            --color-white: #FAF8F5;
+            --color-bg: #F7F4EF;
+            --color-text: #2D2D2D;
+            --color-text-light: #5A5A5A;
+            --color-text-muted: #8A8A8A;
+            --color-border: #E8E2DA;
+            --color-success: #4A7A4A;
+            --color-error: #B85C5C;
+            --shadow-sm: 0 2px 20px rgba(45, 74, 62, 0.06);
+            --shadow-md: 0 8px 40px rgba(45, 74, 62, 0.08);
+            --shadow-lg: 0 20px 60px rgba(45, 74, 62, 0.1);
+            --shadow-xl: 0 30px 80px rgba(45, 74, 62, 0.12);
+            --transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --max-width: 1200px;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ============================================
+           TYPOGRAPHY
+           ============================================ */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+        }
+
+        h1 { font-size: clamp(2.8rem, 5vw, 4.2rem); }
+        h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); }
+        h3 { font-size: 1.3rem; }
+        h4 { font-size: 1rem; }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--color-dark);
+            color: var(--color-white);
+            padding: 16px 40px;
+            border: none;
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ============================================
+           NAVBAR
+           ============================================ */
+        .navbar {
+            background: rgba(250, 248, 245, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--color-primary);
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-text span {
+            font-weight: 300;
+            color: var(--color-text-light);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-menu a {
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--color-accent);
+            transition: var(--transition);
+            margin-top: 2px;
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-text);
+        }
+
+        .nav-menu a.active {
+            color: var(--color-text);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: var(--color-text);
+            transition: var(--transition);
+        }
+
+        /* ============================================
+           NAV ACTIONS
+           ============================================ */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .auth-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-login {
+            padding: 8px 20px;
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            font-weight: 500;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .btn-login:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .btn-register {
+            padding: 8px 20px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            font-weight: 500;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-register:hover {
+            background: var(--color-primary-light);
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            margin-left: 4px;
+        }
+
+        .cart-icon-btn {
+            background: none;
+            color: var(--color-text);
+            border: 1px solid transparent;
+            width: 44px;
+            height: 44px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .cart-icon-btn:hover {
+            border-color: var(--color-border);
+            background: var(--color-bg);
+        }
+
+        .cart-counter {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--color-accent);
+            color: var(--color-white);
+            width: 20px;
+            height: 20px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* ============================================
+           USER MENU
+           ============================================ */
+        .user-menu-dropdown {
+            position: relative;
+        }
+
+        .user-menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-family: var(--font-primary);
+            font-weight: 500;
+            color: var(--color-text-light);
+            transition: var(--transition);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .user-menu-btn:hover {
+            border-color: var(--color-border);
+            background: var(--color-bg);
+        }
+
+        .user-avatar {
+            font-size: 0.8rem;
+        }
+
+        .user-name {
+            font-size: 0.7rem;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .user-menu-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 200px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .user-menu-dropdown.active .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: var(--color-text);
+            font-size: 0.8rem;
+            transition: var(--transition);
+            font-weight: 400;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--color-bg);
+        }
+
+        .dropdown-content hr {
+            margin: 4px 0;
+            border: none;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .btn-logout {
+            color: var(--color-accent) !important;
+        }
+
+        /* ============================================
+           REGISTER PAGE - SPLIT LAYOUT
+           ============================================ */
+        .register-page {
+            padding: 60px 0;
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--color-white) 0%, var(--color-bg) 100%);
+        }
+
+        .register-wrapper {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 60px;
+            align-items: start;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* === REGISTER CARD === */
+        .register-card {
+            background: var(--color-white);
+            padding: 48px 40px;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .register-header .register-icon {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+
+        .register-header h2 {
+            margin-bottom: 6px;
+            color: var(--color-primary);
+        }
+
+        .register-header p {
+            color: var(--color-text-muted);
+            font-weight: 300;
+            font-size: 0.95rem;
+        }
+
+        .register-form .form-group {
+            margin-bottom: 16px;
+        }
+
+        .register-form .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .register-form .form-group input,
+        .register-form .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-border);
+            font-family: var(--font-primary);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: var(--color-white);
+            color: var(--color-text);
+        }
+
+        .register-form .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .register-form .form-group input:focus,
+        .register-form .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.15);
+        }
+
+        .register-form .form-group input::placeholder,
+        .register-form .form-group textarea::placeholder {
+            color: var(--color-text-muted);
+            font-weight: 300;
+        }
+
+        .register-form .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 6px 0 20px;
+        }
+
+        .register-form .checkbox input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--color-accent);
+            flex-shrink: 0;
+        }
+
+        .register-form .checkbox label {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--color-text-light);
+            text-transform: none;
+            letter-spacing: 0;
+            margin: 0;
+        }
+
+        .register-form .checkbox label a {
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        .register-form .checkbox label a:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        .form-message {
+            margin-top: 16px;
+            padding: 12px 16px;
+            display: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-message.success {
+            display: block;
+            background: var(--color-bg);
+            color: var(--color-success);
+            border: 1px solid var(--color-success);
+        }
+
+        .form-message.error {
+            display: block;
+            background: #FDF0F0;
+            color: var(--color-error);
+            border: 1px solid var(--color-error);
+        }
+
+        .register-footer {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .register-footer p {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        .register-footer a {
+            color: var(--color-accent);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .register-footer a:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        /* === BENEFITS SIDE === */
+        .register-benefits {
+            background: var(--color-primary);
+            padding: 48px 36px;
+            border: 1px solid var(--color-primary);
+            position: sticky;
+            top: 100px;
+        }
+
+        .register-benefits h3 {
+            color: var(--color-white);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .register-benefits ul {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .register-benefits ul li {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .register-benefits ul li:last-child {
+            border-bottom: none;
+        }
+
+        .register-benefits ul li .benefit-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .register-benefits .benefit-highlight {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .register-benefits .benefit-highlight strong {
+            color: var(--color-accent-light);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: var(--color-dark);
+            color: rgba(255, 255, 255, 0.5);
+            padding: 60px 0 30px;
+        }
+
+        .footer-wrapper {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--color-white);
+            margin-bottom: 12px;
+        }
+
+        .footer-brand .logo .logo-image {
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer-brand .logo span {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-brand p {
+            opacity: 0.6;
+            font-size: 0.9rem;
+            font-weight: 300;
+            max-width: 280px;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .social-links a:hover {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .footer-column h4 {
+            color: var(--color-white);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            opacity: 0.6;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .footer-column ul li a:hover {
+            opacity: 1;
+            color: var(--color-accent-light);
+        }
+
+        .footer-column ul li {
+            opacity: 0.6;
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 24px;
+            text-align: center;
+            opacity: 0.3;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .register-wrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .register-benefits {
+                position: static;
+            }
+
+            .footer-wrapper {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--color-white);
+                flex-direction: column;
+                padding: 100px 32px 40px;
+                gap: 20px;
+                transform: translateX(100%);
+                transition: var(--transition);
+                opacity: 0;
+                pointer-events: none;
+                overflow-y: auto;
+                justify-content: flex-start;
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .nav-menu a {
+                font-size: 1rem;
+                padding: 8px 0;
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .register-page {
+                padding: 40px 0;
+                min-height: auto;
+            }
+
+            .register-card {
+                padding: 32px 24px;
+            }
+
+            .register-benefits {
+                padding: 32px 24px;
+            }
+
+            .footer-wrapper {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .register-card {
+                padding: 24px 16px;
+            }
+
+            .register-benefits {
+                padding: 24px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- ==================== NAVBAR ==================== -->
@@ -14,29 +846,55 @@
             <div class="nav-wrapper">
                 <div class="logo">
                     <a href="index.html">
-                        <span class="logo-icon">🌿</span>
-                        <span class="logo-text">Green Home</span>
+                        <div class="logo-image">
+                            <img src="images/logo.png" alt="Green Home">
+                        </div>
+                        <span class="logo-text">Green<span>Home</span></span>
                     </a>
                 </div>
                 
-                <ul class="nav-menu">
+                <ul class="nav-menu" id="navMenu">
                     <li><a href="index.html">Inicio</a></li>
                     <li><a href="sobre-nosotros.html">Nosotros</a></li>
                     <li><a href="productos.html">Productos</a></li>
                     <li><a href="beneficios.html">Beneficios</a></li>
                     <li><a href="galeria.html">Galería</a></li>
                     <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="contacto.html" class="btn-contact">Contacto</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
                 </ul>
 
-                <div class="cart-icon-wrapper">
-                    <a href="carrito.html" class="cart-icon-btn" aria-label="Carrito">
-                        🛒
-                        <span class="cart-counter" id="cartCounter">0</span>
-                    </a>
+                <div class="nav-actions" id="navActions">
+                    <div class="auth-wrapper">
+                        <div class="auth-buttons" id="authButtons">
+                            <a href="login.html" class="btn-login">Iniciar Sesión</a>
+                            <a href="registro.html" class="btn-register active">Registrarse</a>
+                        </div>
+
+                        <div class="user-menu-dropdown" id="userMenu" style="display: none;">
+                            <button class="user-menu-btn" onclick="toggleUserMenu()">
+                                <span class="user-avatar">●</span>
+                                <span class="user-name" id="userNameDisplay">Usuario</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </button>
+                            <div class="dropdown-content" id="userDropdown">
+                                <a href="perfil.html">Perfil</a>
+                                <a href="mis-pedidos.html">Mis Pedidos</a>
+                                <a href="admin.html" id="adminLink" style="display: none;">Panel Admin</a>
+                                <hr>
+                                <a href="#" onclick="cerrarSesion()" class="btn-logout">Cerrar Sesión</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cart-icon-wrapper">
+                        <a href="carrito.html" class="cart-icon-btn" aria-label="Carrito">
+                            🛒
+                            <span class="cart-counter" id="cartCounter">0</span>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="hamburger">
+                <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -45,33 +903,26 @@
         </div>
     </nav>
 
-    <!-- ==================== HERO ==================== -->
-    <section class="page-hero">
-        <div class="container">
-            <h1>📝 Crear Cuenta</h1>
-            <p>Regístrate para realizar tus pedidos</p>
-        </div>
-    </section>
-
     <!-- ==================== REGISTRO ==================== -->
     <section class="register-page">
         <div class="container">
             <div class="register-wrapper">
+                <!-- Lado Izquierdo - Formulario -->
                 <div class="register-card">
                     <div class="register-header">
-                        <span class="register-icon">🌱</span>
+                        <span class="register-icon">●</span>
                         <h2>¡Bienvenido a Green Home!</h2>
                         <p>Completa tus datos para crear tu cuenta</p>
                     </div>
 
                     <form id="registerForm" class="register-form">
                         <div class="form-group">
-                            <label for="regNombre">Nombre completo *</label>
+                            <label for="regNombre">Nombre completo</label>
                             <input type="text" id="regNombre" name="nombre" required placeholder="Tu nombre completo">
                         </div>
 
                         <div class="form-group">
-                            <label for="regEmail">Correo electrónico *</label>
+                            <label for="regEmail">Correo electrónico</label>
                             <input type="email" id="regEmail" name="email" required placeholder="tu@email.com">
                         </div>
 
@@ -81,18 +932,18 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="regDireccion">Dirección de envío *</label>
+                            <label for="regDireccion">Dirección de envío</label>
                             <textarea id="regDireccion" name="direccion" required placeholder="Calle, número, colonia, ciudad, CP"></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="regPassword">Contraseña *</label>
+                            <label for="regPassword">Contraseña</label>
                             <input type="password" id="regPassword" name="password" required placeholder="Mínimo 6 caracteres" minlength="6">
                         </div>
 
                         <div class="form-group checkbox">
                             <input type="checkbox" id="regTerminos" name="terminos" required>
-                            <label for="regTerminos">Acepto los <a href="#">Términos y Condiciones</a> *</label>
+                            <label for="regTerminos">Acepto los <a href="#">Términos y Condiciones</a></label>
                         </div>
 
                         <button type="submit" class="btn-primary btn-block">
@@ -108,15 +959,19 @@
                     </form>
                 </div>
 
+                <!-- Lado Derecho - Beneficios -->
                 <div class="register-benefits">
                     <h3>Beneficios de registrarte</h3>
                     <ul>
-                        <li>✅ Realiza pedidos fácilmente</li>
-                        <li>✅ Recibe promociones exclusivas</li>
-                        <li>✅ Accede a tu historial de compras</li>
-                        <li>✅ Envíos más rápidos</li>
-                        <li>✅ Acumula puntos de lealtad</li>
+                        <li><span class="benefit-dot"></span> Realiza pedidos fácilmente</li>
+                        <li><span class="benefit-dot"></span> Recibe promociones exclusivas</li>
+                        <li><span class="benefit-dot"></span> Accede a tu historial de compras</li>
+                        <li><span class="benefit-dot"></span> Envíos más rápidos</li>
+                        <li><span class="benefit-dot"></span> Acumula puntos de lealtad</li>
                     </ul>
+                    <div class="benefit-highlight">
+                        <strong>+10%</strong> de descuento en tu primera compra
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,48 +983,48 @@
             <div class="footer-wrapper">
                 <div class="footer-brand">
                     <div class="logo">
-                        <span class="logo-icon">🌿</span>
-                        <span class="logo-text">Green Home</span>
+                        <div class="logo-image">
+                            <img src="images/logo.png" alt="Green Home">
+                        </div>
+                        <span>Green<span>Home</span></span>
                     </div>
                     <p>Cultivando sueños verdes desde 2024</p>
                     <div class="social-links">
-                        <a href="#" aria-label="Instagram">📸</a>
-                        <a href="#" aria-label="Facebook">📘</a>
-                        <a href="#" aria-label="TikTok">🎵</a>
-                        <a href="#" aria-label="YouTube">▶️</a>
+                        <a href="#" aria-label="Instagram">in</a>
+                        <a href="#" aria-label="Facebook">fb</a>
+                        <a href="#" aria-label="TikTok">tt</a>
+                        <a href="#" aria-label="YouTube">yt</a>
                     </div>
                 </div>
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Enlaces</h4>
-                        <ul>
-                            <li><a href="index.html">Inicio</a></li>
-                            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
-                            <li><a href="productos.html">Productos</a></li>
-                            <li><a href="contacto.html">Contacto</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Soporte</h4>
-                        <ul>
-                            <li><a href="faq.html">Preguntas Frecuentes</a></li>
-                            <li><a href="#">Política de Envíos</a></li>
-                            <li><a href="#">Devoluciones</a></li>
-                            <li><a href="#">Aviso de Privacidad</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Contacto</h4>
-                        <ul>
-                            <li><a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a></li>
-                            <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
-                            <li>CDMX, México</li>
-                        </ul>
-                    </div>
+                <div class="footer-column">
+                    <h4>Enlaces</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Soporte</h4>
+                    <ul>
+                        <li><a href="faq.html">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Política de Envíos</a></li>
+                        <li><a href="#">Devoluciones</a></li>
+                        <li><a href="#">Aviso de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a></li>
+                        <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
+                        <li>CDMX, México</li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Green Home. Todos los derechos reservados. 🌱</p>
+                <p>&copy; 2026 Green Home. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>

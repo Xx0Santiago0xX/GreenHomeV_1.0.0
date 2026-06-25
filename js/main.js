@@ -11,15 +11,12 @@ function setActiveNavLink() {
     
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
-        // Remover clase active de todos
         link.classList.remove('active');
         
-        // Si el href coincide con la página actual
         if (href === currentPage) {
             link.classList.add('active');
         }
         
-        // Caso especial para index.html
         if (currentPage === '' || currentPage === 'index.html') {
             if (href === 'index.html') {
                 link.classList.add('active');
@@ -42,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Cerrar menú al hacer clic en un enlace
     const navLinks = document.querySelectorAll('.nav-menu a');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
@@ -53,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Cerrar menú al hacer scroll
     window.addEventListener('scroll', () => {
         if (navMenu && navMenu.classList.contains('active')) {
             if (hamburger) {
@@ -63,50 +58,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // ============================================
-    // 0. DETECTAR PÁGINA ACTIVA EN NAVBAR
-    // ============================================
     setActiveNavLink();
-
-    // ============================================
-    // 2. INICIALIZAR CARRITO
-    // ============================================
     actualizarContadorCarrito();
+    
     if (document.querySelector('.cart-content')) {
         actualizarVistaCarrito();
     }
 
-    // ============================================
-    // 3. CARGAR PRODUCTOS Y FILTROS
-    // ============================================
     if (document.querySelector('.products-grid')) {
         cargarProductos();
     }
 
-    // Si hay filtros en la página, inicializarlos
     if (document.querySelector('.filter-btn')) {
         initProductFilters();
     }
 
-    // ============================================
-    // 4. FILTROS DE GALERÍA
-    // ============================================
     initGalleryFilters();
-
-    // ============================================
-    // 5. FAQ TOGGLE
-    // ============================================
     initFAQ();
-
-    // ============================================
-    // 6. FORMULARIO DE CONTACTO
-    // ============================================
     initContactForm();
-
-    // ============================================
-    // 7. BÚSQUEDA
-    // ============================================
     initSearch();
+    verificarSesion();
+    
+    if (document.getElementById('registerForm')) {
+        initRegistro();
+    }
+    
+    if (document.getElementById('loginForm')) {
+        initLogin();
+    }
+    
+    if (document.querySelector('.admin-page')) {
+        cargarEstadisticas();
+        cargarPedidos();
+    }
 
     console.log('🌿 Green Home - Todos los módulos cargados correctamente');
 });
@@ -116,8 +100,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // ============================================
 let carrito = JSON.parse(localStorage.getItem('carritoGreenHome')) || [];
 
-function agregarAlCarrito(id, nombre, precio) {
+function agregarAlCarrito(id, nombre, precio, imagenUrl) {
     const itemExistente = carrito.find(item => item.id === id);
+    
+    // Usar la imagen proporcionada o default
+    const imagen = imagenUrl || 'images/default-product.png';
     
     if (itemExistente) {
         itemExistente.cantidad += 1;
@@ -126,7 +113,8 @@ function agregarAlCarrito(id, nombre, precio) {
             id: id,
             nombre: nombre,
             precio: precio,
-            cantidad: 1
+            cantidad: 1,
+            imagen: imagen
         });
     }
 
@@ -195,10 +183,13 @@ function actualizarVistaCarrito() {
     `;
 
     carrito.forEach(item => {
+        const imagenUrl = item.imagen || 'images/default-product.png';
+        
         html += `
             <div class="cart-item-row" data-id="${item.id}">
                 <div class="cart-item-image">
-                    <img src="images/productos/default-product.jpg" alt="${item.nombre}" loading="lazy" onerror="this.src='images/default-product.jpg'">
+                    <img src="${imagenUrl}" alt="${item.nombre}" loading="lazy" 
+                         onerror="this.src='images/default-product.png'">
                 </div>
                 <div class="cart-item-details">
                     <h4>${item.nombre}</h4>
@@ -311,7 +302,6 @@ async function enviarPedido(event) {
     submitBtn.disabled = true;
 
     try {
-        // Crear cliente
         const clienteResponse = await fetch('/api/clientes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -327,7 +317,6 @@ async function enviarPedido(event) {
             throw new Error('Error al crear cliente');
         }
 
-        // Crear pedido
         const items = carrito.map(item => ({
             producto_id: parseInt(item.id),
             cantidad: item.cantidad,
@@ -349,15 +338,10 @@ async function enviarPedido(event) {
         const pedidoResult = await pedidoResponse.json();
 
         if (pedidoResult.success) {
-            // Limpiar carrito
             carrito = [];
             localStorage.setItem('carritoGreenHome', JSON.stringify(carrito));
             actualizarContadorCarrito();
-            
-            // Cerrar modal
             cerrarModal();
-            
-            // Mostrar éxito
             mostrarNotificacion('🎉 ¡Pedido realizado con éxito! Te contactaremos pronto.');
             actualizarVistaCarrito();
         } else {
@@ -372,7 +356,7 @@ async function enviarPedido(event) {
 }
 
 // ============================================
-// 9. CARGAR PRODUCTOS DESDE API (ACTUALIZADO)
+// 9. CARGAR PRODUCTOS DESDE API
 // ============================================
 async function cargarProductos() {
     const container = document.getElementById('productosGrid') || document.querySelector('.products-grid');
@@ -413,6 +397,9 @@ async function cargarProductos() {
             const badgeClass = producto.stock > 10 ? 'badge-available' : 
                               producto.stock > 0 ? 'badge-limited' : 'badge-soldout';
 
+            // 📌 USAR LA IMAGEN DE LA BASE DE DATOS
+            const imagenUrl = producto.imagen_url || 'images/default-product.png';
+
             let categoryIcon = '🌱';
             if (categoria === 'kits') categoryIcon = '🌱';
             else if (categoria === 'semillas') categoryIcon = '🌾';
@@ -421,10 +408,10 @@ async function cargarProductos() {
 
             card.innerHTML = `
                 <div class="product-image">
-                    <img src="${producto.imagen_url || 'images/default-product.jpg'}" 
+                    <img src="${imagenUrl}" 
                          alt="${producto.nombre}" 
                          loading="lazy"
-                         onerror="this.src='images/default-product.jpg'">
+                         onerror="this.src='images/default-product.png'">
                     <span class="product-badge ${badgeClass}">${badgeText}</span>
                     <span class="product-category-tag">${categoryIcon} ${producto.categoria || 'Otros'}</span>
                 </div>
@@ -437,7 +424,8 @@ async function cargarProductos() {
                             `<button class="btn-small btn-add-cart" 
                                 data-id="${producto.id}" 
                                 data-nombre="${producto.nombre}" 
-                                data-precio="${producto.precio}">
+                                data-precio="${producto.precio}"
+                                data-imagen="${imagenUrl}">
                                 Agregar
                             </button>` :
                             `<span class="btn-small btn-disabled">Agotado</span>`
@@ -448,18 +436,18 @@ async function cargarProductos() {
             container.appendChild(card);
         });
 
-        // Event listeners para agregar al carrito
+        // Event listeners para agregar al carrito CON IMAGEN
         document.querySelectorAll('.btn-add-cart').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 const id = this.dataset.id;
                 const nombre = this.dataset.nombre;
                 const precio = parseFloat(this.dataset.precio);
-                agregarAlCarrito(id, nombre, precio);
+                const imagen = this.dataset.imagen || 'images/default-product.png';
+                agregarAlCarrito(id, nombre, precio, imagen);
             });
         });
 
-        // Aplicar filtro inicial si existe en URL
         aplicarFiltroURL();
 
     } catch (error) {
@@ -491,7 +479,7 @@ function aplicarFiltroURL() {
 }
 
 // ============================================
-// 10. FILTROS DE PRODUCTOS (ACTUALIZADO)
+// 10. FILTROS DE PRODUCTOS
 // ============================================
 function initProductFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -502,11 +490,9 @@ function initProductFilters() {
             const filter = this.dataset.filter;
             const products = document.querySelectorAll('.product-card');
             
-            // Actualizar botón activo
             filterButtons.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
 
-            // Filtrar productos
             products.forEach(product => {
                 if (filter === 'all') {
                     product.style.display = 'block';
@@ -523,11 +509,9 @@ function initProductFilters() {
                 }
             });
 
-            // Mostrar mensaje si no hay productos
             const container = document.querySelector('.products-grid');
             const visibleProducts = document.querySelectorAll('.product-card[style*="display: block"]');
             
-            // Remover mensaje anterior
             const oldMessage = container.querySelector('.no-products-message');
             if (oldMessage) oldMessage.remove();
 
@@ -551,7 +535,7 @@ function initProductFilters() {
 }
 
 // ============================================
-// 12. BÚSQUEDA DE PRODUCTOS (ACTUALIZADO)
+// 12. BÚSQUEDA DE PRODUCTOS
 // ============================================
 function initSearch() {
     const searchInput = document.getElementById('searchInput');
@@ -567,7 +551,6 @@ function initSearch() {
             const desc = product.querySelector('.product-desc')?.textContent?.toLowerCase() || '';
             const match = nombre.includes(query) || desc.includes(query);
             
-            // Verificar si el producto está visible por filtro
             const isVisible = product.style.display !== 'none';
             
             if (match && isVisible) {
@@ -580,7 +563,6 @@ function initSearch() {
             }
         });
 
-        // Mostrar mensaje si no hay resultados
         const container = document.querySelector('.products-grid');
         const oldMessage = container.querySelector('.no-results-message');
         if (oldMessage) oldMessage.remove();
@@ -631,8 +613,7 @@ function initGalleryFilters() {
 }
 
 // ============================================
-// ============================================
-// 13. FAQ TOGGLE (CORREGIDO)
+// 13. FAQ TOGGLE
 // ============================================
 function toggleFAQ(element) {
     const item = element.closest('.faq-item');
@@ -640,7 +621,6 @@ function toggleFAQ(element) {
     const icon = element.querySelector('.faq-icon');
     const allItems = document.querySelectorAll('.faq-item');
     
-    // Cerrar todos los demás
     allItems.forEach(otherItem => {
         if (otherItem !== item) {
             otherItem.classList.remove('active');
@@ -655,7 +635,6 @@ function toggleFAQ(element) {
         }
     });
     
-    // Alternar el actual
     if (item.classList.contains('active')) {
         item.classList.remove('active');
         if (answer) {
@@ -679,7 +658,6 @@ function initFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
     if (faqItems.length === 0) return;
 
-    // Abrir el primer FAQ por defecto
     if (faqItems.length > 0) {
         const firstItem = faqItems[0];
         const firstAnswer = firstItem.querySelector('.faq-answer');
@@ -707,7 +685,6 @@ function initContactForm() {
         const submitBtn = this.querySelector('button[type="submit"]');
         const messageDiv = document.getElementById('formMessage');
         
-        // Validar checkbox
         const privacidad = document.getElementById('privacidad');
         if (!privacidad || !privacidad.checked) {
             if (messageDiv) {
@@ -718,7 +695,6 @@ function initContactForm() {
             return;
         }
 
-        // Recopilar datos del formulario
         const formData = new FormData(this);
         const data = {
             nombre: formData.get('nombre'),
@@ -728,12 +704,10 @@ function initContactForm() {
             mensaje: formData.get('mensaje')
         };
 
-        // Deshabilitar botón
         submitBtn.disabled = true;
         submitBtn.innerHTML = '⏳ Enviando...';
 
         try {
-            // 1. ENVIAR A FORMPREE
             const formspreeResponse = await fetch('https://formspree.io/f/mjgqvjkp', {
                 method: 'POST',
                 headers: {
@@ -746,7 +720,6 @@ function initContactForm() {
             const formspreeResult = await formspreeResponse.json();
 
             if (formspreeResult.ok) {
-                // 2. GUARDAR EN LA BASE DE DATOS LOCAL
                 try {
                     await fetch('/api/contacto', {
                         method: 'POST',
@@ -763,7 +736,6 @@ function initContactForm() {
                     console.log('⚠️ No se pudo guardar en BD local, pero Formspree funcionó');
                 }
 
-                // Mostrar éxito
                 if (messageDiv) {
                     messageDiv.className = 'form-message success';
                     messageDiv.textContent = '✅ ¡Mensaje enviado con éxito! Te contactaremos pronto.';
@@ -780,7 +752,6 @@ function initContactForm() {
         } catch (error) {
             console.error('Error:', error);
             
-            // Intentar enviar solo a la base de datos local si falla Formspree
             try {
                 const localResponse = await fetch('/api/contacto', {
                     method: 'POST',
@@ -810,7 +781,6 @@ function initContactForm() {
                 mostrarNotificacion('❌ Error al enviar mensaje', 'error');
             }
         } finally {
-            // Restaurar botón
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<span>📩 Enviar mensaje</span><span>→</span>';
         }
@@ -892,487 +862,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 });
-// ============================================
-// ============================================
-// === FUNCIONES DE REGISTRO, LOGIN Y ADMIN ===
-// ============================================
-// ============================================
 
-// ============================================
-// 20. REGISTRO DE USUARIOS
-// ============================================
-function initRegistro() {
-    const form = document.getElementById('registerForm');
-    if (!form) return;
-
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const formData = {
-            nombre: document.getElementById('regNombre').value,
-            email: document.getElementById('regEmail').value,
-            telefono: document.getElementById('regTelefono').value,
-            direccion: document.getElementById('regDireccion').value,
-            password: document.getElementById('regPassword').value
-        };
-
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const messageDiv = document.getElementById('registerMessage');
-        
-        submitBtn.textContent = '⏳ Registrando...';
-        submitBtn.disabled = true;
-
-        try {
-            const response = await fetch('/api/registro', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                messageDiv.className = 'form-message success';
-                messageDiv.textContent = '✅ ¡Registro exitoso! Redirigiendo al login...';
-                messageDiv.style.display = 'block';
-                
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 2000);
-            } else {
-                messageDiv.className = 'form-message error';
-                messageDiv.textContent = '❌ ' + (result.error || 'Error al registrarse');
-                messageDiv.style.display = 'block';
-                submitBtn.textContent = 'Crear cuenta →';
-                submitBtn.disabled = false;
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            messageDiv.className = 'form-message error';
-            messageDiv.textContent = '❌ Error de conexión. Intenta de nuevo.';
-            messageDiv.style.display = 'block';
-            submitBtn.textContent = 'Crear cuenta →';
-            submitBtn.disabled = false;
-        }
-    });
-}
-
-// ============================================
-// 21. LOGIN DE USUARIOS
-// ============================================
-function initLogin() {
-    const form = document.getElementById('loginForm');
-    if (!form) return;
-
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const messageDiv = document.getElementById('loginMessage');
-        
-        submitBtn.textContent = '⏳ Iniciando...';
-        submitBtn.disabled = true;
-
-        try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                messageDiv.className = 'form-message success';
-                messageDiv.textContent = '✅ ¡Bienvenido! Redirigiendo...';
-                messageDiv.style.display = 'block';
-                
-                localStorage.setItem('usuarioGreenHome', JSON.stringify(result.usuario));
-                
-                if (result.usuario.esAdmin) {
-                    setTimeout(() => {
-                        window.location.href = 'admin.html';
-                    }, 1000);
-                } else {
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1000);
-                }
-            } else {
-                messageDiv.className = 'form-message error';
-                messageDiv.textContent = '❌ ' + (result.error || 'Error al iniciar sesión');
-                messageDiv.style.display = 'block';
-                submitBtn.textContent = 'Iniciar Sesión →';
-                submitBtn.disabled = false;
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            messageDiv.className = 'form-message error';
-            messageDiv.textContent = '❌ Error de conexión. Intenta de nuevo.';
-            messageDiv.style.display = 'block';
-            submitBtn.textContent = 'Iniciar Sesión →';
-            submitBtn.disabled = false;
-        }
-    });
-}
-
-// ============================================
-// 22. ADMIN - CARGAR ESTADÍSTICAS
-// ============================================
-async function cargarEstadisticas() {
-    try {
-        const response = await fetch('/api/stats');
-        const stats = await response.json();
-        
-        const totalClientes = document.getElementById('totalClientes');
-        const totalPedidos = document.getElementById('totalPedidos');
-        const pedidosPendientes = document.getElementById('pedidosPendientes');
-        const totalMensajes = document.getElementById('totalMensajes');
-        
-        if (totalClientes) totalClientes.textContent = stats.totalClientes || 0;
-        if (totalPedidos) totalPedidos.textContent = stats.totalPedidos || 0;
-        if (pedidosPendientes) pedidosPendientes.textContent = stats.pedidosPendientes || 0;
-        if (totalMensajes) totalMensajes.textContent = stats.totalMensajes || 0;
-    } catch (error) {
-        console.error('Error al cargar estadísticas:', error);
-    }
-}
-
-// ============================================
-// 23. ADMIN - CARGAR PEDIDOS
-// ============================================
-async function cargarPedidos() {
-    const tbody = document.getElementById('pedidosTableBody');
-    if (!tbody) return;
-
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 40px; color: #999;">⏳ Cargando pedidos...</td></tr>`;
-
-    try {
-        const response = await fetch('/api/pedidos');
-        const pedidos = await response.json();
-        
-        if (pedidos.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 40px; color: #999;">📭 No hay pedidos aún</td></tr>`;
-            return;
-        }
-
-        tbody.innerHTML = pedidos.map(pedido => `
-            <tr>
-                <td><strong>#${pedido.id}</strong></td>
-                <td>${pedido.cliente_nombre || 'N/A'}</td>
-                <td>${pedido.cliente_email || 'N/A'}</td>
-                <td><strong>$${pedido.total || 0}</strong></td>
-                <td>${new Date(pedido.fecha).toLocaleDateString('es-MX')}</td>
-                <td>
-                    <span class="status-badge status-${pedido.estatus}">
-                        ${getStatusIcon(pedido.estatus)} ${pedido.estatus}
-                    </span>
-                </td>
-                <td>
-                    <button onclick="abrirModalEstatus(${pedido.id})" class="btn-small">✏️ Editar</button>
-                </td>
-            </tr>
-        `).join('');
-
-    } catch (error) {
-        console.error('Error al cargar pedidos:', error);
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 40px; color: #d32f2f;">❌ Error al cargar pedidos</td></tr>`;
-    }
-}
-
-// ============================================
-// 24. ADMIN - CARGAR CLIENTES
-// ============================================
-async function cargarClientes() {
-    const container = document.getElementById('adminContent');
-    if (!container) return;
-
-    try {
-        const response = await fetch('/api/clientes');
-        const clientes = await response.json();
-        
-        container.innerHTML = `
-            <div class="table-header">
-                <h2>👥 Clientes Registrados</h2>
-                <button onclick="cargarClientes()" class="btn-refresh">🔄 Actualizar</button>
-            </div>
-            <div class="table-wrapper">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Dirección</th>
-                            <th>Fecha Registro</th>
-                            <th>Rol</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${clientes.map(cliente => `
-                            <tr>
-                                <td>#${cliente.id}</td>
-                                <td><strong>${cliente.nombre}</strong></td>
-                                <td>${cliente.email}</td>
-                                <td>${cliente.telefono || 'N/A'}</td>
-                                <td>${cliente.direccion || 'N/A'}</td>
-                                <td>${new Date(cliente.fecha_registro).toLocaleDateString('es-MX')}</td>
-                                <td>${cliente.es_admin ? '👑 Admin' : '👤 Usuario'}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
-    } catch (error) {
-        console.error('Error al cargar clientes:', error);
-        container.innerHTML = `<p style="text-align:center; padding:40px; color:#d32f2f;">❌ Error al cargar clientes</p>`;
-    }
-}
-
-// ============================================
-// 25. ADMIN - CARGAR MENSAJES
-// ============================================
-async function cargarMensajes() {
-    const container = document.getElementById('adminContent');
-    if (!container) return;
-
-    try {
-        const response = await fetch('/api/mensajes');
-        const mensajes = await response.json();
-        
-        container.innerHTML = `
-            <div class="table-header">
-                <h2>📩 Mensajes Recibidos</h2>
-                <button onclick="cargarMensajes()" class="btn-refresh">🔄 Actualizar</button>
-            </div>
-            <div class="table-wrapper">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Producto</th>
-                            <th>Mensaje</th>
-                            <th>Fecha</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${mensajes.map(msg => `
-                            <tr>
-                                <td>#${msg.id}</td>
-                                <td><strong>${msg.nombre}</strong></td>
-                                <td>${msg.email}</td>
-                                <td>${msg.producto_interes || 'N/A'}</td>
-                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${msg.mensaje}">
-                                    ${msg.mensaje}
-                                </td>
-                                <td>${new Date(msg.fecha).toLocaleDateString('es-MX')}</td>
-                                <td>
-                                    <span class="status-badge ${msg.leido ? 'status-leido' : 'status-no-leido'}">
-                                        ${msg.leido ? '✅ Leído' : '⏳ No leído'}
-                                    </span>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
-    } catch (error) {
-        console.error('Error al cargar mensajes:', error);
-        container.innerHTML = `<p style="text-align:center; padding:40px; color:#d32f2f;">❌ Error al cargar mensajes</p>`;
-    }
-}
-
-// ============================================
-// 26. ADMIN - ACTUALIZAR ESTATUS PEDIDO
-// ============================================
-function abrirModalEstatus(pedidoId) {
-    document.getElementById('pedidoIdStatus').value = pedidoId;
-    document.getElementById('statusModal').style.display = 'flex';
-}
-
-function cerrarModalEstatus() {
-    document.getElementById('statusModal').style.display = 'none';
-}
-
-async function actualizarEstatus(event) {
-    event.preventDefault();
-    const pedidoId = document.getElementById('pedidoIdStatus').value;
-    const nuevoEstatus = document.getElementById('nuevoEstatus').value;
-
-    try {
-        const response = await fetch(`/api/pedidos/${pedidoId}/estatus`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ estatus: nuevoEstatus })
-        });
-
-        const result = await response.json();
-        
-        if (result.success) {
-            mostrarNotificacion('✅ Estatus actualizado correctamente');
-            cerrarModalEstatus();
-            cargarPedidos();
-            cargarEstadisticas();
-        } else {
-            mostrarNotificacion('❌ Error al actualizar estatus', 'error');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        mostrarNotificacion('❌ Error de conexión', 'error');
-    }
-}
-
-// ============================================
-// 27. ADMIN - CERRAR SESIÓN
-// ============================================
-function cerrarSesion() {
-    localStorage.removeItem('usuarioGreenHome');
-    window.location.href = 'login.html';
-}
-
-// ============================================
-// 28. VERIFICAR SESIÓN ACTIVA
-// ============================================
-function verificarSesion() {
-    const usuario = localStorage.getItem('usuarioGreenHome');
-    const authButtons = document.getElementById('authButtons');
-    const userMenu = document.getElementById('userMenu');
-    
-    if (usuario) {
-        try {
-            const userData = JSON.parse(usuario);
-            
-            // Ocultar botones de login/registro
-            if (authButtons) {
-                authButtons.style.display = 'none';
-            }
-            
-            // Mostrar menú de usuario
-            if (userMenu) {
-                userMenu.style.display = 'block';
-                
-                // Actualizar nombre de usuario
-                const userNameDisplay = document.getElementById('userNameDisplay');
-                if (userNameDisplay) {
-                    userNameDisplay.textContent = userData.nombre || 'Usuario';
-                }
-                
-                // Mostrar opción Admin si es administrador
-                const adminLink = document.getElementById('adminLink');
-                if (adminLink && userData.esAdmin) {
-                    adminLink.style.display = 'block';
-                }
-            }
-        } catch (e) {
-            console.error('Error al verificar sesión:', e);
-        }
-    } else {
-        // Mostrar botones de login/registro
-        if (authButtons) {
-            authButtons.style.display = 'flex';
-        }
-        
-        // Ocultar menú de usuario
-        if (userMenu) {
-            userMenu.style.display = 'none';
-        }
-    }
-}
-
-// ============================================
-// TOGGLE MENÚ DE USUARIO
-// ============================================
-function toggleUserMenu() {
-    const userMenu = document.getElementById('userMenu');
-    if (userMenu) {
-        userMenu.classList.toggle('active');
-    }
-}
-
-// Cerrar menú de usuario al hacer clic fuera
-document.addEventListener('click', function(event) {
-    const userMenu = document.getElementById('userMenu');
-    const userMenuBtn = document.querySelector('.user-menu-btn');
-    
-    if (userMenu && !userMenu.contains(event.target) && userMenuBtn && !userMenuBtn.contains(event.target)) {
-        userMenu.classList.remove('active');
-    }
-});
-
-// ============================================
-// 29. UTILIDADES
-// ============================================
-function getStatusIcon(estatus) {
-    const icons = {
-        'pendiente': '⏳',
-        'procesando': '🔄',
-        'enviado': '📦',
-        'entregado': '✅',
-        'cancelado': '❌'
-    };
-    return icons[estatus] || '⏳';
-}
-
-// ============================================
-// 30. INICIALIZAR TODAS LAS FUNCIONES
-// ============================================
-document.addEventListener('DOMContentLoaded', function() {
-    // Navbar activa
-    setActiveNavLink();
-    
-    // Verificar sesión
-    verificarSesion();
-    
-    // Carrito
-    actualizarContadorCarrito();
-    
-    // Productos
-    if (document.querySelector('.products-grid')) {
-        cargarProductos();
-    }
-    
-    // Registro
-    if (document.getElementById('registerForm')) {
-        initRegistro();
-    }
-    
-    // Login
-    if (document.getElementById('loginForm')) {
-        initLogin();
-    }
-    
-    // Admin - Dashboard
-    if (document.querySelector('.admin-page')) {
-        cargarEstadisticas();
-        cargarPedidos();
-    }
-    
-    // FAQ
-    initFAQ();
-    
-    // Contacto
-    initContactForm();
-    
-    // Búsqueda
-    initSearch();
-    
-    // Filtros de productos
-    initProductFilters();
-    
-    // Filtros de galería
-    initGalleryFilters();
-    
-    console.log('🌿 Green Home - Todos los módulos cargados correctamente');
-});
 // ============================================
 // 18. ESTILOS ADICIONALES
 // ============================================
@@ -1561,14 +1051,529 @@ window.toggleFAQ = function(el) {
         icon.textContent = '−';
     }
 };
+
 // ============================================
-// 35. FUNCIONES DE PAGO
+// 20. REGISTRO DE USUARIOS
+// ============================================
+function initRegistro() {
+    const form = document.getElementById('registerForm');
+    if (!form) return;
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            nombre: document.getElementById('regNombre').value,
+            email: document.getElementById('regEmail').value,
+            telefono: document.getElementById('regTelefono').value,
+            direccion: document.getElementById('regDireccion').value,
+            password: document.getElementById('regPassword').value
+        };
+
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const messageDiv = document.getElementById('registerMessage');
+        
+        submitBtn.textContent = '⏳ Registrando...';
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch('/api/registro', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                messageDiv.className = 'form-message success';
+                messageDiv.textContent = '✅ ¡Registro exitoso! Redirigiendo al login...';
+                messageDiv.style.display = 'block';
+                
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            } else {
+                messageDiv.className = 'form-message error';
+                messageDiv.textContent = '❌ ' + (result.error || 'Error al registrarse');
+                messageDiv.style.display = 'block';
+                submitBtn.textContent = 'Crear cuenta →';
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            messageDiv.className = 'form-message error';
+            messageDiv.textContent = '❌ Error de conexión. Intenta de nuevo.';
+            messageDiv.style.display = 'block';
+            submitBtn.textContent = 'Crear cuenta →';
+            submitBtn.disabled = false;
+        }
+    });
+}
+
+// ============================================
+// 21. LOGIN DE USUARIOS
+// ============================================
+function initLogin() {
+    const form = document.getElementById('loginForm');
+    if (!form) return;
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const messageDiv = document.getElementById('loginMessage');
+        
+        submitBtn.textContent = '⏳ Iniciando...';
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                messageDiv.className = 'form-message success';
+                messageDiv.textContent = '✅ ¡Bienvenido! Redirigiendo...';
+                messageDiv.style.display = 'block';
+                
+                localStorage.setItem('usuarioGreenHome', JSON.stringify(result.usuario));
+                
+                if (result.usuario.esAdmin) {
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                }
+            } else {
+                messageDiv.className = 'form-message error';
+                messageDiv.textContent = '❌ ' + (result.error || 'Error al iniciar sesión');
+                messageDiv.style.display = 'block';
+                submitBtn.textContent = 'Iniciar Sesión →';
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            messageDiv.className = 'form-message error';
+            messageDiv.textContent = '❌ Error de conexión. Intenta de nuevo.';
+            messageDiv.style.display = 'block';
+            submitBtn.textContent = 'Iniciar Sesión →';
+            submitBtn.disabled = false;
+        }
+    });
+}
+
+// ============================================
+// 22. ADMIN - CARGAR ESTADÍSTICAS
+// ============================================
+async function cargarEstadisticas() {
+    try {
+        const response = await fetch('/api/stats');
+        const stats = await response.json();
+        
+        const totalClientes = document.getElementById('totalClientes');
+        const totalPedidos = document.getElementById('totalPedidos');
+        const pedidosPendientes = document.getElementById('pedidosPendientes');
+        const totalMensajes = document.getElementById('totalMensajes');
+        
+        if (totalClientes) totalClientes.textContent = stats.totalClientes || 0;
+        if (totalPedidos) totalPedidos.textContent = stats.totalPedidos || 0;
+        if (pedidosPendientes) pedidosPendientes.textContent = stats.pedidosPendientes || 0;
+        if (totalMensajes) totalMensajes.textContent = stats.totalMensajes || 0;
+    } catch (error) {
+        console.error('Error al cargar estadísticas:', error);
+    }
+}
+
+// ============================================
+// 23. ADMIN - CARGAR PEDIDOS
+// ============================================
+async function cargarPedidos() {
+    const container = document.getElementById('adminContent');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="admin-table-container">
+            <div class="table-header">
+                <h2>📦 Pedidos</h2>
+                <button onclick="cargarPedidos(); return false;" class="btn-refresh">Actualizar</button>
+            </div>
+            <div class="table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Email</th>
+                            <th>Total</th>
+                            <th>Fecha</th>
+                            <th>Estatus</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pedidosTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--color-text-muted); font-weight: 300;">
+                                Cargando pedidos...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    document.querySelectorAll('.nav-menu a').forEach(function(link) {
+        link.classList.remove('active');
+    });
+    document.querySelector('.nav-menu a[onclick="cargarPedidos(); return false;"]')?.classList.add('active');
+    
+    document.getElementById('adminWelcome').textContent = 'Gestionando pedidos';
+
+    try {
+        const tbody = document.getElementById('pedidosTableBody');
+        const response = await fetch('/api/pedidos');
+        const pedidos = await response.json();
+        
+        if (pedidos.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 40px; color: var(--color-text-muted); font-weight: 300;">No hay pedidos registrados</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = pedidos.map(pedido => `
+            <tr>
+                <td><strong>#${pedido.id}</strong></td>
+                <td>${pedido.cliente_nombre || 'N/A'}</td>
+                <td>${pedido.cliente_email || 'N/A'}</td>
+                <td><strong>$${parseFloat(pedido.total || 0).toFixed(2)}</strong></td>
+                <td>${new Date(pedido.fecha).toLocaleDateString('es-MX')}</td>
+                <td>
+                    <span class="status-badge status-${pedido.estatus || 'pendiente'}">
+                        ${(pedido.estatus || 'pendiente').charAt(0).toUpperCase() + (pedido.estatus || 'pendiente').slice(1)}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn-action" onclick="abrirModalEstatus(${pedido.id}); return false;">Editar</button>
+                </td>
+            </tr>
+        `).join('');
+
+    } catch (error) {
+        console.error('Error al cargar pedidos:', error);
+        document.getElementById('pedidosTableBody').innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; padding: 40px; color: var(--color-danger);">
+                    Error al cargar pedidos
+                </td>
+            </tr>
+        `;
+    }
+}
+
+// ============================================
+// 24. ADMIN - CARGAR CLIENTES
+// ============================================
+async function cargarClientes() {
+    const container = document.getElementById('adminContent');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="admin-table-container">
+            <div class="table-header">
+                <h2>👥 Clientes Registrados</h2>
+                <button onclick="cargarClientes(); return false;" class="btn-refresh">Actualizar</button>
+            </div>
+            <div class="table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Dirección</th>
+                            <th>Fecha Registro</th>
+                            <th>Rol</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientesTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--color-text-muted); font-weight: 300;">
+                                Cargando clientes...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    document.querySelectorAll('.nav-menu a').forEach(function(link) {
+        link.classList.remove('active');
+    });
+    document.querySelector('.nav-menu a[onclick="cargarClientes(); return false;"]')?.classList.add('active');
+    
+    document.getElementById('adminWelcome').textContent = 'Gestionando clientes';
+
+    try {
+        const tbody = document.getElementById('clientesTableBody');
+        const response = await fetch('/api/clientes');
+        const clientes = await response.json();
+        
+        if (clientes.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 40px; color: var(--color-text-muted); font-weight: 300;">No hay clientes registrados</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = clientes.map(cliente => `
+            <tr>
+                <td>#${cliente.id}</td>
+                <td><strong>${cliente.nombre || 'N/A'}</strong></td>
+                <td>${cliente.email || 'N/A'}</td>
+                <td>${cliente.telefono || 'N/A'}</td>
+                <td>${cliente.direccion || 'N/A'}</td>
+                <td>${new Date(cliente.fecha_registro).toLocaleDateString('es-MX')}</td>
+                <td>${cliente.es_admin ? '👑 Admin' : '👤 Usuario'}</td>
+            </tr>
+        `).join('');
+
+    } catch (error) {
+        console.error('Error al cargar clientes:', error);
+        document.getElementById('clientesTableBody').innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; padding: 40px; color: var(--color-danger);">
+                    Error al cargar clientes
+                </td>
+            </tr>
+        `;
+    }
+}
+
+// ============================================
+// 25. ADMIN - CARGAR MENSAJES
+// ============================================
+async function cargarMensajes() {
+    const container = document.getElementById('adminContent');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="admin-table-container">
+            <div class="table-header">
+                <h2>📩 Mensajes Recibidos</h2>
+                <button onclick="cargarMensajes(); return false;" class="btn-refresh">Actualizar</button>
+            </div>
+            <div class="table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Producto</th>
+                            <th>Mensaje</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mensajesTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--color-text-muted); font-weight: 300;">
+                                Cargando mensajes...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    document.querySelectorAll('.nav-menu a').forEach(function(link) {
+        link.classList.remove('active');
+    });
+    document.querySelector('.nav-menu a[onclick="cargarMensajes(); return false;"]')?.classList.add('active');
+    
+    document.getElementById('adminWelcome').textContent = 'Gestionando mensajes';
+
+    try {
+        const tbody = document.getElementById('mensajesTableBody');
+        const response = await fetch('/api/mensajes');
+        const mensajes = await response.json();
+        
+        if (mensajes.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 40px; color: var(--color-text-muted); font-weight: 300;">No hay mensajes recibidos</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = mensajes.map(msg => `
+            <tr>
+                <td>#${msg.id}</td>
+                <td><strong>${msg.nombre || 'N/A'}</strong></td>
+                <td>${msg.email || 'N/A'}</td>
+                <td>${msg.producto_interes || 'N/A'}</td>
+                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${msg.mensaje || ''}">
+                    ${msg.mensaje || 'N/A'}
+                </td>
+                <td>${new Date(msg.fecha).toLocaleDateString('es-MX')}</td>
+                <td>
+                    <span class="status-badge ${msg.leido ? 'status-leido' : 'status-no-leido'}">
+                        ${msg.leido ? 'Leído' : 'No leído'}
+                    </span>
+                </td>
+            </tr>
+        `).join('');
+
+    } catch (error) {
+        console.error('Error al cargar mensajes:', error);
+        document.getElementById('mensajesTableBody').innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; padding: 40px; color: var(--color-danger);">
+                    Error al cargar mensajes
+                </td>
+            </tr>
+        `;
+    }
+}
+
+// ============================================
+// 26. ADMIN - ACTUALIZAR ESTATUS PEDIDO
+// ============================================
+function abrirModalEstatus(pedidoId) {
+    document.getElementById('pedidoIdStatus').value = pedidoId;
+    document.getElementById('statusModal').style.display = 'flex';
+}
+
+function cerrarModalEstatus() {
+    document.getElementById('statusModal').style.display = 'none';
+}
+
+async function actualizarEstatus(event) {
+    event.preventDefault();
+    const pedidoId = document.getElementById('pedidoIdStatus').value;
+    const nuevoEstatus = document.getElementById('nuevoEstatus').value;
+
+    try {
+        const response = await fetch(`/api/pedidos/${pedidoId}/estatus`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ estatus: nuevoEstatus })
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+            mostrarNotificacion('✅ Estatus actualizado correctamente');
+            cerrarModalEstatus();
+            cargarPedidos();
+            cargarEstadisticas();
+        } else {
+            mostrarNotificacion('❌ Error al actualizar estatus', 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        mostrarNotificacion('❌ Error de conexión', 'error');
+    }
+}
+
+// ============================================
+// 27. ADMIN - CERRAR SESIÓN
+// ============================================
+function cerrarSesion() {
+    localStorage.removeItem('usuarioGreenHome');
+    window.location.href = 'login.html';
+}
+
+// ============================================
+// 28. VERIFICAR SESIÓN ACTIVA
+// ============================================
+function verificarSesion() {
+    const usuario = localStorage.getItem('usuarioGreenHome');
+    const authButtons = document.getElementById('authButtons');
+    const userMenu = document.getElementById('userMenu');
+    
+    if (usuario) {
+        try {
+            const userData = JSON.parse(usuario);
+            
+            if (authButtons) {
+                authButtons.style.display = 'none';
+            }
+            
+            if (userMenu) {
+                userMenu.style.display = 'block';
+                
+                const userNameDisplay = document.getElementById('userNameDisplay');
+                if (userNameDisplay) {
+                    userNameDisplay.textContent = userData.nombre || 'Usuario';
+                }
+                
+                const adminLink = document.getElementById('adminLink');
+                if (adminLink && userData.esAdmin) {
+                    adminLink.style.display = 'block';
+                }
+            }
+        } catch (e) {
+            console.error('Error al verificar sesión:', e);
+        }
+    } else {
+        if (authButtons) {
+            authButtons.style.display = 'flex';
+        }
+        
+        if (userMenu) {
+            userMenu.style.display = 'none';
+        }
+    }
+}
+
+// ============================================
+// TOGGLE MENÚ DE USUARIO
+// ============================================
+function toggleUserMenu() {
+    const userMenu = document.getElementById('userMenu');
+    if (userMenu) {
+        userMenu.classList.toggle('active');
+    }
+}
+
+document.addEventListener('click', function(event) {
+    const userMenu = document.getElementById('userMenu');
+    const userMenuBtn = document.querySelector('.user-menu-btn');
+    
+    if (userMenu && !userMenu.contains(event.target) && userMenuBtn && !userMenuBtn.contains(event.target)) {
+        userMenu.classList.remove('active');
+    }
+});
+
+// ============================================
+// 29. UTILIDADES
+// ============================================
+function getStatusIcon(estatus) {
+    const icons = {
+        'pendiente': '⏳',
+        'procesando': '🔄',
+        'enviado': '📦',
+        'entregado': '✅',
+        'cancelado': '❌'
+    };
+    return icons[estatus] || '⏳';
+}
+
+// ============================================
+// 30. FUNCIONES DE PAGO
 // ============================================
 
-// Variable global para el total del carrito
 let totalCarrito = 0;
 
-// Mostrar modal de pago
 function mostrarModalPago() {
     const usuario = localStorage.getItem('usuarioGreenHome');
     
@@ -1583,23 +1588,19 @@ function mostrarModalPago() {
     try {
         const userData = JSON.parse(usuario);
         
-        // Verificar que el carrito no esté vacío
         if (carrito.length === 0) {
             mostrarNotificacion('⚠️ El carrito está vacío', 'error');
             return;
         }
 
-        // Calcular total
         totalCarrito = obtenerTotalCarrito();
         const envio = totalCarrito >= 500 ? 0 : 80;
         const totalFinal = totalCarrito + envio;
 
-        // Autocompletar datos del usuario
         document.getElementById('pagoNombre').value = userData.nombre || '';
         document.getElementById('pagoEmail').value = userData.email || '';
         document.getElementById('pagoDireccion').value = userData.direccion || '';
 
-        // Mostrar resumen del pedido
         const summary = document.getElementById('paymentSummary');
         summary.innerHTML = `
             <div class="payment-summary-row">
@@ -1624,10 +1625,8 @@ function mostrarModalPago() {
             </div>
         `;
 
-        // Actualizar botón de pago
         document.getElementById('payAmount').textContent = `$${totalFinal.toFixed(2)} MXN`;
 
-        // Mostrar modal
         document.getElementById('paymentModal').style.display = 'flex';
         document.body.style.overflow = 'hidden';
 
@@ -1637,13 +1636,11 @@ function mostrarModalPago() {
     }
 }
 
-// Cerrar modal de pago
 function cerrarModalPago() {
     document.getElementById('paymentModal').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
 
-// Formatear número de tarjeta
 function formatearTarjeta(input) {
     let value = input.value.replace(/\D/g, '');
     value = value.replace(/(.{4})/g, '$1 ').trim();
@@ -1651,7 +1648,6 @@ function formatearTarjeta(input) {
     detectarTipoTarjeta(value);
 }
 
-// Detectar tipo de tarjeta
 function detectarTipoTarjeta(numero) {
     const clean = numero.replace(/\s/g, '');
     const typeElement = document.getElementById('cardType');
@@ -1674,7 +1670,6 @@ function detectarTipoTarjeta(numero) {
     }
 }
 
-// Formatear fecha de expiración
 function formatearFecha(input) {
     let value = input.value.replace(/\D/g, '');
     if (value.length >= 2) {
@@ -1683,20 +1678,17 @@ function formatearFecha(input) {
     input.value = value.substring(0, 5);
 }
 
-// Procesar pago
 async function procesarPago(event) {
     event.preventDefault();
     
     const submitBtn = event.target.querySelector('.btn-pay');
     const messageDiv = document.getElementById('paymentMessage');
     
-    // Validar tarjeta
     const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
     const cardExpiry = document.getElementById('cardExpiry').value;
     const cardCvv = document.getElementById('cardCvv').value;
     const cardName = document.getElementById('cardName').value;
 
-    // Validaciones simples de tarjeta
     if (cardNumber.length < 16) {
         mostrarNotificacion('⚠️ Número de tarjeta inválido', 'error');
         return;
@@ -1717,27 +1709,22 @@ async function procesarPago(event) {
         return;
     }
 
-    // Obtener usuario
     const usuario = JSON.parse(localStorage.getItem('usuarioGreenHome'));
     
-    // Deshabilitar botón
     submitBtn.disabled = true;
     submitBtn.innerHTML = '⏳ Procesando pago...';
 
     try {
-        // Calcular total
         const total = obtenerTotalCarrito();
         const envio = total >= 500 ? 0 : 80;
         const totalFinal = total + envio;
 
-        // Preparar items del pedido
         const items = carrito.map(item => ({
             producto_id: parseInt(item.id),
             cantidad: item.cantidad,
             subtotal: item.precio * item.cantidad
         }));
 
-        // Crear pedido en la base de datos
         const response = await fetch('/api/pedidos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1752,7 +1739,6 @@ async function procesarPago(event) {
         const result = await response.json();
 
         if (result.success) {
-            // Guardar información del pedido en localStorage para confirmación
             const pedidoInfo = {
                 id: result.pedidoId,
                 fecha: new Date().toISOString(),
@@ -1766,18 +1752,12 @@ async function procesarPago(event) {
             };
             localStorage.setItem('ultimoPedido', JSON.stringify(pedidoInfo));
 
-            // Limpiar carrito
             carrito = [];
             localStorage.setItem('carritoGreenHome', JSON.stringify(carrito));
             actualizarContadorCarrito();
 
-            // Cerrar modal de pago
             cerrarModalPago();
-
-            // Mostrar confirmación
             mostrarConfirmacion(pedidoInfo);
-            
-            // Actualizar vista del carrito
             actualizarVistaCarrito();
 
         } else {
@@ -1792,7 +1772,6 @@ async function procesarPago(event) {
     }
 }
 
-// Mostrar confirmación de pago
 function mostrarConfirmacion(pedidoInfo) {
     const modal = document.getElementById('confirmModal');
     const details = document.getElementById('confirmDetails');
@@ -1831,8 +1810,37 @@ function mostrarConfirmacion(pedidoInfo) {
     mostrarNotificacion('🎉 ¡Pago realizado con éxito!');
 }
 
-// Cerrar modal de confirmación
 function cerrarConfirmacion() {
     document.getElementById('confirmModal').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
+
+// ============================================
+// 31. EXPONER FUNCIONES DE PAGO GLOBALES
+// ============================================
+window.mostrarModalPago = mostrarModalPago;
+window.cerrarModalPago = cerrarModalPago;
+window.formatearTarjeta = formatearTarjeta;
+window.formatearFecha = formatearFecha;
+window.procesarPago = procesarPago;
+window.cerrarConfirmacion = cerrarConfirmacion;
+window.cargarDashboard = function() {
+    cargarPedidos();
+    document.querySelector('.table-header h2').textContent = 'Últimos Pedidos';
+    document.getElementById('adminWelcome').textContent = 'Bienvenido, Administrador';
+    
+    document.querySelectorAll('.nav-menu a').forEach(function(link) {
+        link.classList.remove('active');
+    });
+    document.querySelector('.nav-menu a[href="admin.html"]')?.classList.add('active');
+};
+
+// ============================================
+// 32. INICIALIZAR ADMIN AL CARGAR
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.querySelector('.admin-page')) {
+        cargarDashboard();
+        cargarEstadisticas();
+    }
+});

@@ -4,8 +4,1201 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito - Green Home</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           RESET & VARIABLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #2D4A3E;
+            --color-primary-light: #4A6B5A;
+            --color-primary-lighter: #7BA38D;
+            --color-accent: #D4A373;
+            --color-accent-light: #E8C9A8;
+            --color-dark: #2D4A3E;
+            --color-white: #FAF8F5;
+            --color-bg: #F7F4EF;
+            --color-text: #2D2D2D;
+            --color-text-light: #5A5A5A;
+            --color-text-muted: #8A8A8A;
+            --color-border: #E8E2DA;
+            --color-success: #4A7A4A;
+            --color-error: #B85C5C;
+            --shadow-sm: 0 2px 20px rgba(45, 74, 62, 0.06);
+            --shadow-md: 0 8px 40px rgba(45, 74, 62, 0.08);
+            --shadow-lg: 0 20px 60px rgba(45, 74, 62, 0.1);
+            --shadow-xl: 0 30px 80px rgba(45, 74, 62, 0.12);
+            --transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --max-width: 1200px;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ============================================
+           TYPOGRAPHY
+           ============================================ */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+        }
+
+        h1 { font-size: clamp(2.8rem, 5vw, 4.2rem); }
+        h2 { font-size: clamp(2rem, 3.5vw, 2.8rem); }
+        h3 { font-size: 1.3rem; }
+        h4 { font-size: 1rem; }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 2px;
+            background: var(--color-accent);
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        .section-label::after {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 2px;
+            background: var(--color-accent);
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--color-dark);
+            color: var(--color-white);
+            padding: 16px 40px;
+            border: none;
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: transparent;
+            color: var(--color-text);
+            padding: 16px 40px;
+            border: 1px solid var(--color-border);
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-dark);
+            color: var(--color-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ============================================
+           NAVBAR
+           ============================================ */
+        .navbar {
+            background: rgba(250, 248, 245, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--color-primary);
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-text span {
+            font-weight: 300;
+            color: var(--color-text-light);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-menu a {
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--color-accent);
+            transition: var(--transition);
+            margin-top: 2px;
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-text);
+        }
+
+        .nav-menu a.active {
+            color: var(--color-text);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: var(--color-text);
+            transition: var(--transition);
+        }
+
+        /* ============================================
+           NAV ACTIONS
+           ============================================ */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .auth-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-login {
+            padding: 8px 20px;
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            font-weight: 500;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .btn-login:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .btn-register {
+            padding: 8px 20px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            font-weight: 500;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-register:hover {
+            background: var(--color-primary-light);
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            margin-left: 4px;
+        }
+
+        .cart-icon-btn {
+            background: none;
+            color: var(--color-text);
+            border: 1px solid transparent;
+            width: 44px;
+            height: 44px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .cart-icon-btn.active-cart {
+            border-color: var(--color-accent);
+            background: var(--color-accent-light);
+        }
+
+        .cart-icon-btn:hover {
+            border-color: var(--color-border);
+            background: var(--color-bg);
+        }
+
+        .cart-counter {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--color-accent);
+            color: var(--color-white);
+            width: 20px;
+            height: 20px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* ============================================
+           USER MENU
+           ============================================ */
+        .user-menu-dropdown {
+            position: relative;
+        }
+
+        .user-menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-family: var(--font-primary);
+            font-weight: 500;
+            color: var(--color-text-light);
+            transition: var(--transition);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .user-menu-btn:hover {
+            border-color: var(--color-border);
+            background: var(--color-bg);
+        }
+
+        .user-avatar {
+            font-size: 0.8rem;
+        }
+
+        .user-name {
+            font-size: 0.7rem;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .user-menu-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 200px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .user-menu-dropdown.active .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: var(--color-text);
+            font-size: 0.8rem;
+            transition: var(--transition);
+            font-weight: 400;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--color-bg);
+        }
+
+        .dropdown-content hr {
+            margin: 4px 0;
+            border: none;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .btn-logout {
+            color: var(--color-accent) !important;
+        }
+
+        /* ============================================
+           PAGE HERO
+           ============================================ */
+        .page-hero {
+            padding: 80px 0 60px;
+            background: var(--color-dark);
+            color: var(--color-white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(to top, var(--color-dark), transparent);
+            pointer-events: none;
+        }
+
+        .page-hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-hero h1 {
+            margin-bottom: 12px;
+        }
+
+        .page-hero h1 .highlight {
+            color: var(--color-accent);
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* ============================================
+           CART PAGE
+           ============================================ */
+        .cart-page {
+            padding: 60px 0 80px;
+        }
+
+        .cart-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+        }
+
+        .cart-empty .empty-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 16px;
+            opacity: 0.2;
+        }
+
+        .cart-empty h2 {
+            margin-bottom: 8px;
+        }
+
+        .cart-empty p {
+            color: var(--color-text-muted);
+            margin-bottom: 24px;
+            font-weight: 300;
+        }
+
+        .cart-items-list {
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+        }
+
+        .cart-item-row {
+            display: grid;
+            grid-template-columns: 100px 1fr auto;
+            gap: 20px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--color-border);
+            align-items: center;
+        }
+
+        .cart-item-row:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            overflow: hidden;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details h4 {
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
+
+        .cart-item-details .item-price {
+            color: var(--color-primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .cart-item-details .item-category {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cart-item-actions .btn-qty {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--color-border);
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-actions .btn-qty:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .cart-item-actions .item-qty {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .cart-item-actions .btn-remove {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            padding: 4px 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cart-item-actions .btn-remove:hover {
+            color: var(--color-error);
+        }
+
+        .cart-summary {
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            padding: 28px 32px;
+            margin-top: 24px;
+        }
+
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .cart-summary-row.total {
+            border-top: 2px solid var(--color-border);
+            padding-top: 16px;
+            margin-top: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .cart-summary-row.total .total-price {
+            color: var(--color-primary);
+        }
+
+        .cart-summary-row .label {
+            color: var(--color-text-light);
+            font-weight: 400;
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .cart-actions .btn-secondary {
+            flex: 1;
+            text-align: center;
+            justify-content: center;
+            min-width: 150px;
+        }
+
+        .cart-actions .btn-primary {
+            flex: 1;
+            text-align: center;
+            justify-content: center;
+            min-width: 150px;
+        }
+
+        /* ============================================
+           MODALS
+           ============================================ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(45, 74, 62, 0.4);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--color-white);
+            max-width: 550px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            border: 1px solid var(--color-border);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--color-text-muted);
+            transition: var(--transition);
+            padding: 4px 8px;
+        }
+
+        .modal-close:hover {
+            color: var(--color-text);
+            transform: rotate(90deg);
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .payment-icon {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .payment-header h2 {
+            margin-bottom: 4px;
+        }
+
+        .payment-header p {
+            color: var(--color-text-muted);
+            font-weight: 300;
+        }
+
+        .payment-summary {
+            background: var(--color-bg);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            border: 1px solid var(--color-border);
+        }
+
+        .payment-summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 0.9rem;
+        }
+
+        .payment-summary-row.total {
+            border-top: 2px solid var(--color-border);
+            padding-top: 12px;
+            margin-top: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .payment-summary-items {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+
+        .payment-section {
+            margin-bottom: 20px;
+        }
+
+        .payment-section h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--color-text);
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--color-border);
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            background: var(--color-white);
+            color: var(--color-text);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.15);
+        }
+
+        .form-group input.readonly-input {
+            background: var(--color-bg);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .card-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .card-type {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            font-weight: 500;
+        }
+
+        .payment-security {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            margin: 20px 0;
+        }
+
+        .security-icon {
+            font-size: 1.2rem;
+        }
+
+        .payment-security p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            font-weight: 300;
+        }
+
+        .btn-pay {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 28px !important;
+            font-size: 0.9rem !important;
+        }
+
+        .pay-amount {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .form-message {
+            margin-top: 16px;
+            padding: 12px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .form-message.success {
+            display: block;
+            background: var(--color-bg);
+            color: var(--color-success);
+            border: 1px solid var(--color-success);
+        }
+
+        .form-message.error {
+            display: block;
+            background: #FDF0F0;
+            color: var(--color-error);
+            border: 1px solid var(--color-error);
+        }
+
+        /* Confirm Modal */
+        .confirm-modal {
+            text-align: center;
+            max-width: 450px;
+        }
+
+        .confirm-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .confirm-modal h2 {
+            margin-bottom: 8px;
+        }
+
+        .confirm-modal p {
+            color: var(--color-text-muted);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .confirm-details {
+            text-align: left;
+            background: var(--color-bg);
+            padding: 16px 20px;
+            margin: 16px 0 24px;
+            border: 1px solid var(--color-border);
+        }
+
+        .confirm-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.85rem;
+        }
+
+        .confirm-items {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .confirm-items h4 {
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .confirm-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: var(--color-dark);
+            color: rgba(255, 255, 255, 0.5);
+            padding: 60px 0 30px;
+        }
+
+        .footer-wrapper {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--color-white);
+            margin-bottom: 12px;
+        }
+
+        .footer-brand .logo .logo-image {
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer-brand .logo span {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-brand p {
+            opacity: 0.6;
+            font-size: 0.9rem;
+            font-weight: 300;
+            max-width: 280px;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .social-links a:hover {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .footer-column h4 {
+            color: var(--color-white);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            opacity: 0.6;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .footer-column ul li a:hover {
+            opacity: 1;
+            color: var(--color-accent-light);
+        }
+
+        .footer-column ul li {
+            opacity: 0.6;
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 24px;
+            text-align: center;
+            opacity: 0.3;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .footer-wrapper {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--color-white);
+                flex-direction: column;
+                padding: 100px 32px 40px;
+                gap: 20px;
+                transform: translateX(100%);
+                transition: var(--transition);
+                opacity: 0;
+                pointer-events: none;
+                overflow-y: auto;
+                justify-content: flex-start;
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .nav-menu a {
+                font-size: 1rem;
+                padding: 8px 0;
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .cart-item-row {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 12px;
+            }
+
+            .cart-item-image {
+                margin: 0 auto;
+            }
+
+            .cart-item-actions {
+                justify-content: center;
+            }
+
+            .cart-actions {
+                flex-direction: column;
+            }
+
+            .cart-actions .btn-secondary,
+            .cart-actions .btn-primary {
+                width: 100%;
+                flex: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 28px 20px;
+                margin: 16px;
+            }
+
+            .footer-wrapper {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .page-hero {
+                padding: 60px 0 40px;
+            }
+
+            .cart-page {
+                padding: 40px 0 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-pay {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- ==================== NAVBAR ==================== -->
@@ -14,42 +1207,46 @@
             <div class="nav-wrapper">
                 <div class="logo">
                     <a href="index.html">
-                        <span class="logo-icon">🌿</span>
-                        <span class="logo-text">Green Home</span>
+                        <div class="logo-image">
+                            <img src="images/logo.png" alt="Green Home">
+                        </div>
+                        <span class="logo-text">Green<span>Home</span></span>
                     </a>
                 </div>
                 
-                <ul class="nav-menu">
+                <ul class="nav-menu" id="navMenu">
                     <li><a href="index.html">Inicio</a></li>
                     <li><a href="sobre-nosotros.html">Nosotros</a></li>
                     <li><a href="productos.html">Productos</a></li>
                     <li><a href="beneficios.html">Beneficios</a></li>
                     <li><a href="galeria.html">Galería</a></li>
                     <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="contacto.html" class="btn-contact">Contacto</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
                 </ul>
 
-                <div class="nav-actions">
+                <div class="nav-actions" id="navActions">
                     <div class="auth-wrapper">
                         <div class="auth-buttons" id="authButtons">
                             <a href="login.html" class="btn-login">Iniciar Sesión</a>
                             <a href="registro.html" class="btn-register">Registrarse</a>
                         </div>
+
                         <div class="user-menu-dropdown" id="userMenu" style="display: none;">
                             <button class="user-menu-btn" onclick="toggleUserMenu()">
-                                <span class="user-avatar">👤</span>
+                                <span class="user-avatar">●</span>
                                 <span class="user-name" id="userNameDisplay">Usuario</span>
                                 <span class="dropdown-arrow">▼</span>
                             </button>
                             <div class="dropdown-content" id="userDropdown">
-                                <a href="perfil.html">👤 Mi Perfil</a>
-                                <a href="mis-pedidos.html">📦 Mis Pedidos</a>
-                                <a href="admin.html" id="adminLink" style="display: none;">👑 Panel Admin</a>
+                                <a href="perfil.html">Perfil</a>
+                                <a href="mis-pedidos.html">Mis Pedidos</a>
+                                <a href="admin.html" id="adminLink" style="display: none;">Panel Admin</a>
                                 <hr>
-                                <a href="#" onclick="cerrarSesion()">🚪 Cerrar Sesión</a>
+                                <a href="#" onclick="cerrarSesion()" class="btn-logout">Cerrar Sesión</a>
                             </div>
                         </div>
                     </div>
+
                     <div class="cart-icon-wrapper">
                         <a href="carrito.html" class="cart-icon-btn active-cart" aria-label="Carrito">
                             🛒
@@ -58,7 +1255,7 @@
                     </div>
                 </div>
 
-                <div class="hamburger">
+                <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -67,10 +1264,10 @@
         </div>
     </nav>
 
-    <!-- ==================== HERO CARRITO ==================== -->
+    <!-- ==================== PAGE HERO ==================== -->
     <section class="page-hero">
         <div class="container">
-            <h1>🛒 Tu Carrito</h1>
+            <h1>Tu <span class="highlight">Carrito</span></h1>
             <p>Revisa los productos que has seleccionado</p>
         </div>
     </section>
@@ -90,7 +1287,7 @@
             <button class="modal-close" onclick="cerrarModalPago()">✕</button>
             
             <div class="payment-header">
-                <span class="payment-icon">💳</span>
+                <span class="payment-icon">●</span>
                 <h2>Procesar Pago</h2>
                 <p>Completa los datos de tu tarjeta para finalizar la compra</p>
             </div>
@@ -100,9 +1297,9 @@
             </div>
 
             <form id="paymentForm" onsubmit="procesarPago(event)">
-                <!-- Datos del usuario (autocompletados) -->
+                <!-- Datos del usuario -->
                 <div class="payment-section">
-                    <h3>📋 Datos de envío</h3>
+                    <h3>Datos de envío</h3>
                     <div class="form-group">
                         <label for="pagoNombre">Nombre completo</label>
                         <input type="text" id="pagoNombre" readonly class="readonly-input">
@@ -119,24 +1316,23 @@
 
                 <!-- Datos de la tarjeta -->
                 <div class="payment-section">
-                    <h3>💳 Datos de la tarjeta</h3>
+                    <h3>Datos de la tarjeta</h3>
                     
                     <div class="form-group">
-                        <label for="cardNumber">Número de tarjeta *</label>
+                        <label for="cardNumber">Número de tarjeta</label>
                         <input type="text" id="cardNumber" 
                                placeholder="1234 5678 9012 3456" 
                                maxlength="19" 
                                required
                                oninput="formatearTarjeta(this)">
                         <span class="card-icons">
-                            <span class="card-icon">💳</span>
                             <span class="card-type" id="cardType">Visa</span>
                         </span>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="cardExpiry">Fecha de expiración *</label>
+                            <label for="cardExpiry">Fecha de expiración</label>
                             <input type="text" id="cardExpiry" 
                                    placeholder="MM/AA" 
                                    maxlength="5" 
@@ -144,7 +1340,7 @@
                                    oninput="formatearFecha(this)">
                         </div>
                         <div class="form-group">
-                            <label for="cardCvv">CVV *</label>
+                            <label for="cardCvv">CVV</label>
                             <input type="password" id="cardCvv" 
                                    placeholder="123" 
                                    maxlength="4" 
@@ -154,7 +1350,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="cardName">Nombre en la tarjeta *</label>
+                        <label for="cardName">Nombre en la tarjeta</label>
                         <input type="text" id="cardName" 
                                placeholder="Como aparece en la tarjeta" 
                                required>
@@ -163,12 +1359,12 @@
 
                 <!-- Seguridad -->
                 <div class="payment-security">
-                    <span class="security-icon">🔒</span>
+                    <span class="security-icon">●</span>
                     <p>Tus datos están seguros. No almacenamos información de tarjetas.</p>
                 </div>
 
                 <button type="submit" class="btn-primary btn-block btn-pay">
-                    <span>💰 Pagar</span>
+                    <span>Pagar</span>
                     <span class="pay-amount" id="payAmount">$0.00 MXN</span>
                 </button>
 
@@ -180,8 +1376,8 @@
     <!-- ==================== MODAL DE CONFIRMACIÓN ==================== -->
     <div class="modal-overlay" id="confirmModal" style="display: none;">
         <div class="modal-content confirm-modal">
-            <div class="confirm-icon">✅</div>
-            <h2>¡Pago exitoso!</h2>
+            <div class="confirm-icon">●</div>
+            <h2>Pago exitoso</h2>
             <p>Tu pedido ha sido confirmado</p>
             <div class="confirm-details" id="confirmDetails">
                 <!-- Detalles del pedido -->
@@ -196,48 +1392,48 @@
             <div class="footer-wrapper">
                 <div class="footer-brand">
                     <div class="logo">
-                        <span class="logo-icon">🌿</span>
-                        <span class="logo-text">Green Home</span>
+                        <div class="logo-image">
+                            <img src="images/logo.png" alt="Green Home">
+                        </div>
+                        <span>Green<span>Home</span></span>
                     </div>
                     <p>Cultivando sueños verdes desde 2024</p>
                     <div class="social-links">
-                        <a href="#" aria-label="Instagram">📸</a>
-                        <a href="#" aria-label="Facebook">📘</a>
-                        <a href="#" aria-label="TikTok">🎵</a>
-                        <a href="#" aria-label="YouTube">▶️</a>
+                        <a href="#" aria-label="Instagram">in</a>
+                        <a href="#" aria-label="Facebook">fb</a>
+                        <a href="#" aria-label="TikTok">tt</a>
+                        <a href="#" aria-label="YouTube">yt</a>
                     </div>
                 </div>
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Enlaces</h4>
-                        <ul>
-                            <li><a href="index.html">Inicio</a></li>
-                            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
-                            <li><a href="productos.html">Productos</a></li>
-                            <li><a href="contacto.html">Contacto</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Soporte</h4>
-                        <ul>
-                            <li><a href="faq.html">Preguntas Frecuentes</a></li>
-                            <li><a href="#">Política de Envíos</a></li>
-                            <li><a href="#">Devoluciones</a></li>
-                            <li><a href="#">Aviso de Privacidad</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Contacto</h4>
-                        <ul>
-                            <li><a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a></li>
-                            <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
-                            <li>CDMX, México</li>
-                        </ul>
-                    </div>
+                <div class="footer-column">
+                    <h4>Enlaces</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Soporte</h4>
+                    <ul>
+                        <li><a href="faq.html">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Política de Envíos</a></li>
+                        <li><a href="#">Devoluciones</a></li>
+                        <li><a href="#">Aviso de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a></li>
+                        <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
+                        <li>CDMX, México</li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Green Home. Todos los derechos reservados. 🌱</p>
+                <p>&copy; 2026 Green Home. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>

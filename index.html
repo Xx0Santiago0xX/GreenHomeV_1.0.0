@@ -4,26 +4,1366 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Green Home - Cultiva vida en casa</title>
-    <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           RESET & VARIABLES - NUEVOS COLORES SUAVES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #2D4A3E;
+            --color-primary-light: #4A6B5A;
+            --color-secondary: #4A6B5A;
+            --color-accent: #D4A373;
+            --color-accent-light: #E8C9A8;
+            --color-dark: #2D4A3E;
+            --color-white: #FAF8F5;
+            --color-bg: #F7F4EF;
+            --color-bg-dark: #2D4A3E;
+            --color-text: #2D2D2D;
+            --color-text-light: #5A5A5A;
+            --color-text-muted: #8A8A8A;
+            --color-border: #E8E2DA;
+            --shadow-sm: 0 2px 20px rgba(45, 74, 62, 0.06);
+            --shadow-md: 0 8px 40px rgba(45, 74, 62, 0.08);
+            --shadow-lg: 0 20px 60px rgba(45, 74, 62, 0.1);
+            --shadow-xl: 0 30px 80px rgba(45, 74, 62, 0.12);
+            --transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --max-width: 1200px;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ============================================
+           TYPOGRAPHY
+           ============================================ */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+        }
+
+        h1 { font-size: clamp(3rem, 6.5vw, 5.2rem); }
+        h2 { font-size: clamp(2.2rem, 4vw, 3.4rem); }
+        h3 { font-size: 1.3rem; }
+        h4 { font-size: 1rem; }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--color-dark);
+            color: var(--color-white);
+            padding: 18px 44px;
+            border: none;
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: transparent;
+            color: var(--color-text);
+            padding: 18px 44px;
+            border: 1px solid var(--color-border);
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-dark);
+            color: var(--color-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .btn-outline:hover {
+            border-bottom-color: var(--color-accent);
+            gap: 16px;
+        }
+
+        /* ============================================
+           NAVBAR - TRANSPARENTE
+           ============================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(250, 248, 245, 0.96);
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-sm);
+            padding: 12px 0;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--color-white);
+        }
+
+        .navbar.scrolled .logo a {
+            color: var(--color-text);
+        }
+
+        /* === LOGO IMAGE CONTAINER === */
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-text span {
+            font-weight: 300;
+            opacity: 0.6;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-menu a {
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar.scrolled .nav-menu a {
+            color: var(--color-text-light);
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-white);
+        }
+
+        .navbar.scrolled .nav-menu a:hover {
+            color: var(--color-text);
+        }
+
+        .nav-menu a.active {
+            color: var(--color-white);
+        }
+
+        .navbar.scrolled .nav-menu a.active {
+            color: var(--color-text);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-actions a {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled .nav-actions a {
+            color: var(--color-text-light);
+        }
+
+        .nav-actions a:hover {
+            color: var(--color-white);
+        }
+
+        .navbar.scrolled .nav-actions a:hover {
+            color: var(--color-text);
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+        }
+
+        .cart-icon-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .navbar.scrolled .cart-icon-btn {
+            color: var(--color-text-light);
+        }
+
+        .cart-icon-btn:hover {
+            color: var(--color-white);
+        }
+
+        .navbar.scrolled .cart-icon-btn:hover {
+            color: var(--color-text);
+        }
+
+        .cart-icon-btn .cart-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cart-counter {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: var(--color-accent);
+            color: white;
+            width: 18px;
+            height: 18px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: var(--color-white);
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled .hamburger span {
+            background: var(--color-text);
+        }
+
+        /* ============================================
+           HERO - IMAGEN A LA IZQUIERDA
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            background: var(--color-dark);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to top, var(--color-dark), transparent);
+            pointer-events: none;
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            padding-top: 80px;
+            padding-bottom: 40px;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            height: auto;
+            filter: grayscale(0.2);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-image-badge {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: var(--color-white);
+            padding: 16px 24px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-image-badge .number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            display: block;
+            line-height: 1;
+        }
+
+        .hero-image-badge .label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-content {
+            color: var(--color-white);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            padding: 4px 0;
+            border-bottom: 2px solid var(--color-accent);
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            margin-bottom: 20px;
+        }
+
+        .hero-title .highlight {
+            color: var(--color-accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 36px;
+            max-width: 440px;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-buttons .btn-primary {
+            background: var(--color-white);
+            color: var(--color-dark);
+        }
+
+        .hero-buttons .btn-primary:hover {
+            background: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .hero-buttons .btn-secondary {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .hero-buttons .btn-secondary:hover {
+            border-color: var(--color-white);
+            color: var(--color-white);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .stat-item .number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-white);
+            letter-spacing: -0.5px;
+        }
+
+        .stat-item .label {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================
+           FEATURES - TARJETAS FLOTANTES
+           ============================================ */
+        .features {
+            padding: 100px 0;
+            background: var(--color-white);
+            position: relative;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin-top: 40px;
+            border: 1px solid var(--color-border);
+        }
+
+        .feature-item {
+            padding: 48px 32px;
+            border-right: 1px solid var(--color-border);
+            transition: var(--transition);
+            background: var(--color-white);
+        }
+
+        .feature-item:last-child {
+            border-right: none;
+        }
+
+        .feature-item:hover {
+            background: var(--color-bg);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            z-index: 1;
+        }
+
+        .feature-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--color-accent);
+            opacity: 0.15;
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: -2px;
+        }
+
+        .feature-item h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-item p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           PRODUCTOS - MOSAICO
+           ============================================ */
+        .products-section {
+            padding: 100px 0;
+            background: var(--color-bg);
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 56px;
+            gap: 40px;
+        }
+
+        .products-header .left h2 {
+            margin-bottom: 8px;
+        }
+
+        .products-header .left p {
+            color: var(--color-text-muted);
+            font-weight: 300;
+            max-width: 400px;
+        }
+
+        .products-mosaic {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--color-white);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--color-border);
+            position: relative;
+        }
+
+        .product-card:nth-child(1) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .product-card:nth-child(2),
+        .product-card:nth-child(3) {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        .product-card:nth-child(4),
+        .product-card:nth-child(5) {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-accent-light);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            background: var(--color-bg);
+        }
+
+        .product-card:nth-child(1) .product-image {
+            aspect-ratio: 16 / 12;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.04);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--color-accent);
+            color: white;
+            padding: 4px 14px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-category-tag {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 14px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-info {
+            padding: 24px;
+        }
+
+        .product-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .product-desc {
+            color: var(--color-text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            font-weight: 300;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .product-price .old-price {
+            font-size: 0.75rem;
+            font-weight: 300;
+            color: var(--color-text-muted);
+            text-decoration: line-through;
+            margin-right: 8px;
+        }
+
+        .product-link {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-text);
+            transition: var(--transition);
+        }
+
+        .product-link:hover {
+            color: var(--color-accent);
+        }
+
+        .products-footer {
+            text-align: center;
+            margin-top: 48px;
+        }
+
+        /* ============================================
+           TESTIMONIALS - SIMPLES
+           ============================================ */
+        .testimonials-section {
+            padding: 100px 0;
+            background: var(--color-dark);
+            color: var(--color-white);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .testimonial-item {
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: var(--transition);
+        }
+
+        .testimonial-item:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .testimonial-item .stars {
+            color: var(--color-accent);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .testimonial-item p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .testimonial-author img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .testimonial-author h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .testimonial-author span {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================
+           CTA - MINIMAL
+           ============================================ */
+        .cta-section {
+            padding: 80px 0;
+            background: var(--color-white);
+            text-align: center;
+            border-top: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .cta-content h2 {
+            margin-bottom: 12px;
+        }
+
+        .cta-content p {
+            color: var(--color-text-muted);
+            font-size: 1rem;
+            font-weight: 300;
+            margin-bottom: 32px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ============================================
+           FOOTER - MINI
+           ============================================ */
+        .footer {
+            background: var(--color-dark);
+            color: rgba(255, 255, 255, 0.5);
+            padding: 40px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-brand .logo-image {
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer-brand span {
+            font-weight: 700;
+            color: var(--color-white);
+        }
+
+        .footer-brand span small {
+            font-weight: 300;
+            opacity: 0.4;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            font-size: 0.75rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--color-white);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-social a {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+            color: var(--color-white);
+        }
+
+        /* ============================================
+           SCROLL TOP
+           ============================================ */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: var(--color-dark);
+            color: var(--color-white);
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            z-index: 999;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            background: var(--color-accent);
+            transform: translateY(-4px);
+        }
+
+        /* ============================================
+           USER MENU
+           ============================================ */
+        .user-menu-dropdown {
+            position: relative;
+        }
+
+        .user-menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-primary);
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar.scrolled .user-menu-btn {
+            color: var(--color-text-light);
+        }
+
+        .user-menu-btn:hover {
+            color: var(--color-white);
+        }
+
+        .navbar.scrolled .user-menu-btn:hover {
+            color: var(--color-text);
+        }
+
+        .user-avatar {
+            font-size: 0.8rem;
+        }
+
+        .user-name {
+            font-size: 0.7rem;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .user-menu-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 200px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .user-menu-dropdown.active .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: var(--color-text);
+            font-size: 0.8rem;
+            transition: var(--transition);
+            font-weight: 400;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--color-bg);
+        }
+
+        .dropdown-content hr {
+            margin: 4px 0;
+            border: none;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .btn-logout {
+            color: var(--color-accent) !important;
+        }
+
+        /* ============================================
+           CART PANEL
+           ============================================ */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: var(--color-white);
+            z-index: 10001;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 1px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-panel.open {
+            right: 0;
+        }
+
+        .cart-panel-header {
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-panel-header h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--color-text-muted);
+            transition: var(--transition);
+            padding: 4px 8px;
+        }
+
+        .cart-close:hover {
+            color: var(--color-text);
+            transform: rotate(90deg);
+        }
+
+        .cart-panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px;
+        }
+
+        .cart-panel-body .empty-cart {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .cart-panel-body .empty-cart span {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 16px;
+            opacity: 0.2;
+        }
+
+        .cart-panel-body .empty-cart p {
+            color: var(--color-text-muted);
+            margin: 16px 0 24px;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(45, 74, 62, 0.3);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .hero-subtitle {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-image-badge {
+                right: 10%;
+            }
+
+            .products-mosaic {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .product-card:nth-child(1) {
+                grid-column: span 2;
+                grid-row: span 1;
+            }
+
+            .product-card:nth-child(1) .product-image {
+                aspect-ratio: 1 / 1;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .feature-item:nth-child(2) {
+                border-right: none;
+            }
+
+            .feature-item:nth-child(3) {
+                border-right: none;
+                border-top: 1px solid var(--color-border);
+                grid-column: span 2;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--color-dark);
+                flex-direction: column;
+                padding: 100px 32px 40px;
+                gap: 20px;
+                transform: translateX(100%);
+                transition: var(--transition);
+                opacity: 0;
+                pointer-events: none;
+                overflow-y: auto;
+                justify-content: flex-start;
+            }
+
+            .navbar.scrolled .nav-menu {
+                background: var(--color-white);
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .nav-menu a {
+                font-size: 1rem;
+                padding: 8px 0;
+                color: rgba(255, 255, 255, 0.8) !important;
+            }
+
+            .navbar.scrolled .nav-menu a {
+                color: var(--color-text-light) !important;
+            }
+
+            .nav-menu a:hover {
+                color: var(--color-white) !important;
+            }
+
+            .navbar.scrolled .nav-menu a:hover {
+                color: var(--color-text) !important;
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 120px 0 60px;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 16px;
+                align-items: center;
+            }
+
+            .stat-item {
+                align-items: center;
+            }
+
+            .products-mosaic {
+                grid-template-columns: 1fr;
+            }
+
+            .product-card:nth-child(1) {
+                grid-column: span 1;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-item {
+                border-right: none !important;
+                border-bottom: 1px solid var(--color-border);
+            }
+
+            .feature-item:last-child {
+                border-bottom: none;
+                border-top: none;
+                grid-column: span 1;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .hero-image-badge {
+                right: 5%;
+                bottom: -10px;
+                padding: 12px 16px;
+            }
+
+            .hero-image-badge .number {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-buttons .btn-primary,
+            .hero-buttons .btn-secondary {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .footer-social {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- ==================== NAVBAR ==================== -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-wrapper">
-                <!-- LOGO -->
                 <div class="logo">
                     <a href="index.html">
-                        <span class="logo-icon">🌿</span>
-                        <span class="logo-text">Green Home</span>
+                        <!-- ESPACIO PARA TU LOGO - Reemplaza "logo.png" con la ruta de tu imagen -->
+                        <div class="logo-image">
+                            <img src="images/logo.png" alt="Green Home">
+                        </div>
+                        <span class="logo-text">Green<span>Home</span></span>
                     </a>
                 </div>
                 
-                <!-- MENÚ PRINCIPAL -->
-                <ul class="nav-menu">
+                <ul class="nav-menu" id="navMenu">
                     <li><a href="index.html" class="active">Inicio</a></li>
                     <li><a href="sobre-nosotros.html">Nosotros</a></li>
                     <li><a href="productos.html">Productos</a></li>
@@ -33,34 +1373,30 @@
                     <li><a href="contacto.html">Contacto</a></li>
                 </ul>
 
-                <!-- ACCIONES (Login + Carrito) -->
-                <div class="nav-actions">
-                    <!-- Autenticación -->
+                <div class="nav-actions" id="navActions">
                     <div class="auth-wrapper">
-                        <!-- Botones de login/registro (cuando NO está logueado) -->
                         <div class="auth-buttons" id="authButtons">
-                            <a href="login.html" class="btn-login">Iniciar Sesión</a>
-                            <a href="registro.html" class="btn-register">Registrarse</a>
+                            <a href="login.html">Iniciar Sesión</a>
+                            <a href="registro.html" class="btn-register" style="color: var(--color-accent);">Registrarse</a>
                         </div>
 
-                        <!-- Menú de usuario (cuando está logueado) -->
                         <div class="user-menu-dropdown" id="userMenu" style="display: none;">
                             <button class="user-menu-btn" onclick="toggleUserMenu()">
-                                <span class="user-avatar">👤</span>
+                                <span class="user-avatar">●</span>
                                 <span class="user-name" id="userNameDisplay">Usuario</span>
                                 <span class="dropdown-arrow">▼</span>
                             </button>
                             <div class="dropdown-content" id="userDropdown">
-                                <a href="perfil.html">👤 Mi Perfil</a>
-                                <a href="mis-pedidos.html">📦 Mis Pedidos</a>
-                                <a href="admin.html" id="adminLink" style="display: none;">👑 Panel Admin</a>
+                                <a href="perfil.html">Perfil</a>
+                                <a href="mis-pedidos.html">Mis Pedidos</a>
+                                <a href="admin.html" id="adminLink" style="display: none;">Panel Admin</a>
                                 <hr>
-                                <a href="#" onclick="cerrarSesion()">🚪 Cerrar Sesión</a>
+                                <a href="#" onclick="cerrarSesion()" class="btn-logout">Cerrar Sesión</a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- CARRITO -->
+                    <!-- CARRITO CON ICONO -->
                     <div class="cart-icon-wrapper">
                         <a href="carrito.html" class="cart-icon-btn" aria-label="Carrito">
                             🛒
@@ -69,8 +1405,7 @@
                     </div>
                 </div>
 
-                <!-- HAMBURGER (mobile) -->
-                <div class="hamburger">
+                <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -79,29 +1414,35 @@
         </div>
     </nav>
 
-    <!-- ==================== PANEL DEL CARRITO (SLIDE) ==================== -->
+    <!-- ==================== PANEL DEL CARRITO ==================== -->
     <div class="cart-panel" id="cartPanel">
         <div class="cart-panel-header">
-            <h3>🛒 Tu Carrito</h3>
+            <h3>Carrito</h3>
             <button class="cart-close" onclick="toggleCarrito()">✕</button>
         </div>
         <div class="cart-panel-body" id="cartPanelBody">
             <div class="empty-cart">
-                <span style="font-size: 3rem;">🛒</span>
+                <span>●</span>
                 <p>Tu carrito está vacío</p>
-                <a href="productos.html" class="btn-primary" style="margin-top: 16px; display: inline-block;">Explorar productos</a>
+                <a href="productos.html" class="btn-primary" style="margin-top: 16px; display: inline-flex;">Explorar productos</a>
             </div>
         </div>
     </div>
 
-    <!-- ==================== OVERLAY ==================== -->
     <div class="overlay" id="overlay" onclick="toggleCarrito()"></div>
 
-    <!-- ==================== HERO SECTION ==================== -->
+    <!-- ==================== HERO ==================== -->
     <section class="hero">
         <div class="container">
+            <div class="hero-image-wrapper">
+                <img src="images/hero-illustration.png" alt="Huerto casero Green Home" loading="lazy">
+                <div class="hero-image-badge">
+                    <span class="number">98%</span>
+                    <span class="label">Satisfacción</span>
+                </div>
+            </div>
             <div class="hero-content">
-                <div class="hero-badge">🌱 Cultivo sostenible</div>
+                <div class="hero-badge">Cultivo sostenible</div>
                 <h1 class="hero-title">
                     Cultiva vida, <br>
                     <span class="highlight">cultiva Green Home</span>
@@ -111,145 +1452,85 @@
                     sin complicaciones y con todo lo que necesitas.
                 </p>
                 <div class="hero-buttons">
-                    <a href="productos.html" class="btn-primary">🌿 Explorar Kits</a>
+                    <a href="productos.html" class="btn-primary">Explorar Kits</a>
                     <a href="sobre-nosotros.html" class="btn-secondary">Conocer más</a>
                 </div>
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <span class="stat-number">+5,000</span>
-                        <span class="stat-label">Clientes felices</span>
+                        <span class="number">+5,000</span>
+                        <span class="label">Clientes</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number">15,000+</span>
-                        <span class="stat-label">Plantas cultivadas</span>
+                        <span class="number">15K+</span>
+                        <span class="label">Plantas</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number">98%</span>
-                        <span class="stat-label">Satisfacción</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="hero-image-wrapper">
-                    <img src="images/hero-illustration.png" alt="Huerto casero Green Home" loading="lazy">
-                    <div class="floating-card card-1">
-                        <span>🌱</span>
-                        <span>100% biodegradable</span>
-                    </div>
-                    <div class="floating-card card-2">
-                        <span>🌿</span>
-                        <span>Fácil de cultivar</span>
+                        <span class="number">98%</span>
+                        <span class="label">Satisfacción</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ==================== CATEGORÍAS ==================== -->
-    <section class="categories">
+    <!-- ==================== FEATURES ==================== -->
+    <section class="features">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">🛒 Categorías</span>
-                <h2>Encuentra tu kit ideal</h2>
-                <p>Selecciona la categoría que más te guste y comienza tu huerto</p>
+            <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                <span class="section-label">Características</span>
+                <h2>Diseñado para ti</h2>
+                <p style="color: var(--color-text-muted); font-weight: 300; margin-top: 8px;">
+                    Todo lo que necesitas para empezar tu huerto en casa
+                </p>
             </div>
-            <div class="categories-grid">
-                <a href="productos.html?categoria=kits" class="category-card">
-                    <div class="category-icon">🌱</div>
-                    <h3>Kits</h3>
-                    <p>Todo lo necesario para empezar</p>
-                </a>
-                <a href="productos.html?categoria=semillas" class="category-card">
-                    <div class="category-icon">🌾</div>
-                    <h3>Semillas</h3>
-                    <p>Variedad de semillas seleccionadas</p>
-                </a>
-                <a href="productos.html?categoria=macetas" class="category-card">
-                    <div class="category-icon">🪴</div>
-                    <h3>Macetas</h3>
-                    <p>Biodegradables y ecológicas</p>
-                </a>
-                <a href="productos.html?categoria=accesorios" class="category-card">
-                    <div class="category-icon">🧤</div>
-                    <h3>Accesorios</h3>
-                    <p>Todo para tu huerto</p>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== PRODUCTOS DESTACADOS ==================== -->
-    <section class="featured-products">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">🌟 Destacados</span>
-                <h2>Nuestros Kits Más Vendidos</h2>
-                <p>Los favoritos de nuestra comunidad</p>
-            </div>
-            <div class="products-grid" id="productosDestacados">
-                <!-- Los productos se cargan con JavaScript -->
-            </div>
-            <div class="section-footer">
-                <a href="productos.html" class="btn-outline">Ver todos los kits →</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== BENEFICIOS ==================== -->
-    <section class="benefits">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">✨ Beneficios</span>
-                <h2>¿Por qué elegir Green Home?</h2>
-            </div>
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <div class="benefit-icon">🌍</div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-number">01</div>
                     <h3>Ecológico</h3>
-                    <p>Masetas 100% biodegradables y materiales sostenibles</p>
+                    <p>Macetas 100% biodegradables y materiales sostenibles</p>
                 </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">🧑‍🌾</div>
+                <div class="feature-item">
+                    <div class="feature-number">02</div>
                     <h3>Fácil de usar</h3>
                     <p>Instrucciones paso a paso, ideal para principiantes</p>
                 </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">📦</div>
+                <div class="feature-item">
+                    <div class="feature-number">03</div>
                     <h3>Envío rápido</h3>
                     <p>Recibe tu kit en 3-5 días hábiles en todo México</p>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">🌱</div>
-                    <h3>Semillas seleccionadas</h3>
-                    <p>Alta germinación y adaptadas al clima mexicano</p>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">💚</div>
-                    <h3>Soporte personalizado</h3>
-                    <p>Asesoría para que tu huerto crezca saludable</p>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">♻️</div>
-                    <h3>Compromiso ambiental</h3>
-                    <p>Plantamos un árbol por cada kit vendido</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ==================== TESTIMONIOS ==================== -->
-    <section class="testimonials">
+    <!-- ==================== PRODUCTOS ==================== -->
+    <section class="products-section">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">💬 Testimonios</span>
-                <h2>Lo que dicen nuestros clientes</h2>
+            <div class="products-header">
+                <div class="left">
+                    <span class="section-label">Productos</span>
+                    <h2>Kits más vendidos</h2>
+                    <p>Los favoritos de nuestra comunidad</p>
+                </div>
+                <a href="productos.html" class="btn-outline">Ver todos →</a>
+            </div>
+            <div class="products-mosaic" id="productosDestacados">
+                <!-- Los productos se cargan con JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS ==================== -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                <span class="section-label" style="color: var(--color-accent);">Testimonios</span>
+                <h2 style="color: var(--color-white);">Lo que dicen nuestros clientes</h2>
             </div>
             <div class="testimonials-grid">
                 <div class="testimonial-item">
-                    <div class="testimonial-content">
-                        <div class="stars">★★★★★</div>
-                        <p>"Compré el kit de hierbas y en una semana ya tenía mis primeros brotes. ¡Es increíblemente fácil!"</p>
-                    </div>
+                    <div class="stars">★★★★★</div>
+                    <p>"Compré el kit de hierbas y en una semana ya tenía mis primeros brotes. ¡Es increíblemente fácil!"</p>
                     <div class="testimonial-author">
                         <img src="images/user1.jpg" alt="Ana Martínez" loading="lazy">
                         <div>
@@ -258,11 +1539,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-item featured">
-                    <div class="testimonial-content">
-                        <div class="stars">★★★★★</div>
-                        <p>"Las macetas biodegradables son una maravilla. Mis plantas crecen sanas y fuertes, ¡y no genero basura!"</p>
-                    </div>
+                <div class="testimonial-item">
+                    <div class="stars">★★★★★</div>
+                    <p>"Las macetas biodegradables son una maravilla. Mis plantas crecen sanas y fuertes, ¡y no genero basura!"</p>
                     <div class="testimonial-author">
                         <img src="images/user2.jpg" alt="Carlos Ruiz" loading="lazy">
                         <div>
@@ -272,10 +1551,8 @@
                     </div>
                 </div>
                 <div class="testimonial-item">
-                    <div class="testimonial-content">
-                        <div class="stars">★★★★★</div>
-                        <p>"Green Home me ha enseñado a conectar con la naturaleza desde mi balcón. ¡Recomiendo 100%!"</p>
-                    </div>
+                    <div class="stars">★★★★★</div>
+                    <p>"Green Home me ha enseñado a conectar con la naturaleza desde mi balcón. ¡Recomiendo 100%!"</p>
                     <div class="testimonial-author">
                         <img src="images/user3.jpg" alt="Laura Gómez" loading="lazy">
                         <div>
@@ -288,13 +1565,14 @@
         </div>
     </section>
 
-    <!-- ==================== CTA FINAL ==================== -->
+    <!-- ==================== CTA ==================== -->
     <section class="cta-section">
         <div class="container">
             <div class="cta-content">
-                <h2>¿Listo para empezar tu huerto?</h2>
+                <span class="section-label">Comienza ahora</span>
+                <h2>¿Listo para tu huerto?</h2>
                 <p>Únete a la comunidad Green Home y cultiva tu propio espacio verde</p>
-                <a href="contacto.html" class="btn-primary">Comienza ahora 🌱</a>
+                <a href="contacto.html" class="btn-primary">Comienza ahora</a>
             </div>
         </div>
     </section>
@@ -302,64 +1580,32 @@
     <!-- ==================== FOOTER ==================== -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-wrapper">
+            <div class="footer-content">
                 <div class="footer-brand">
-                    <div class="logo">
-                        <span class="logo-icon">🌿</span>
-                        <span class="logo-text">Green Home</span>
+                    <div class="logo-image">
+                        <img src="images/logo.png" alt="Green Home">
                     </div>
-                    <p>Cultivando sueños verdes desde 2024</p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Instagram">📸</a>
-                        <a href="#" aria-label="Facebook">📘</a>
-                        <a href="#" aria-label="TikTok">🎵</a>
-                        <a href="#" aria-label="YouTube">▶️</a>
-                    </div>
+                    <span>Green<small>Home</small></span>
                 </div>
                 <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Enlaces</h4>
-                        <ul>
-                            <li><a href="index.html">Inicio</a></li>
-                            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
-                            <li><a href="productos.html">Productos</a></li>
-                            <li><a href="contacto.html">Contacto</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Soporte</h4>
-                        <ul>
-                            <li><a href="faq.html">Preguntas Frecuentes</a></li>
-                            <li><a href="#">Política de Envíos</a></li>
-                            <li><a href="#">Devoluciones</a></li>
-                            <li><a href="#">Aviso de Privacidad</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Contacto</h4>
-                        <ul>
-                            <li><a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a></li>
-                            <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
-                            <li>CDMX, México</li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Horario</h4>
-                        <ul>
-                            <li>Lun - Vie: 9:00 - 18:00</li>
-                            <li>Sáb: 10:00 - 14:00</li>
-                            <li>Domingo: Cerrado</li>
-                        </ul>
-                    </div>
+                    <a href="index.html">Inicio</a>
+                    <a href="sobre-nosotros.html">Nosotros</a>
+                    <a href="productos.html">Productos</a>
+                    <a href="contacto.html">Contacto</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#">Instagram</a>
+                    <a href="#">Facebook</a>
+                    <a href="#">TikTok</a>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Green Home. Todos los derechos reservados. 🌱</p>
+            <div style="text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04); font-size: 0.7rem; opacity: 0.3;">
+                <p>&copy; 2026 Green Home. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
-    <!-- ==================== BOTÓN SCROLL TOP ==================== -->
     <button class="scroll-top" id="scrollTop" aria-label="Volver arriba">↑</button>
 
     <script src="js/main.js"></script>

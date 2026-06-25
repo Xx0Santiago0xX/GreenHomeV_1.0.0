@@ -4,8 +4,1088 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto - Green Home</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           RESET & VARIABLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #2D4A3E;
+            --color-primary-light: #4A6B5A;
+            --color-primary-lighter: #7BA38D;
+            --color-accent: #D4A373;
+            --color-accent-light: #E8C9A8;
+            --color-dark: #2D4A3E;
+            --color-white: #FAF8F5;
+            --color-bg: #F7F4EF;
+            --color-text: #2D2D2D;
+            --color-text-light: #5A5A5A;
+            --color-text-muted: #8A8A8A;
+            --color-border: #E8E2DA;
+            --color-success: #4A7A4A;
+            --color-error: #B85C5C;
+            --shadow-sm: 0 2px 20px rgba(45, 74, 62, 0.06);
+            --shadow-md: 0 8px 40px rgba(45, 74, 62, 0.08);
+            --shadow-lg: 0 20px 60px rgba(45, 74, 62, 0.1);
+            --shadow-xl: 0 30px 80px rgba(45, 74, 62, 0.12);
+            --transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --max-width: 1200px;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ============================================
+           TYPOGRAPHY
+           ============================================ */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+        }
+
+        h1 { font-size: clamp(2.8rem, 5vw, 4.2rem); }
+        h2 { font-size: clamp(2rem, 3.5vw, 2.8rem); }
+        h3 { font-size: 1.3rem; }
+        h4 { font-size: 1rem; }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 2px;
+            background: var(--color-accent);
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        .section-label::after {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 2px;
+            background: var(--color-accent);
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--color-dark);
+            color: var(--color-white);
+            padding: 16px 40px;
+            border: none;
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: transparent;
+            color: var(--color-text);
+            padding: 16px 40px;
+            border: 1px solid var(--color-border);
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-dark);
+            color: var(--color-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ============================================
+           NAVBAR
+           ============================================ */
+        .navbar {
+            background: rgba(250, 248, 245, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--color-primary);
+        }
+
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-text span {
+            font-weight: 300;
+            color: var(--color-text-light);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-menu a {
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: var(--color-text-light);
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--color-accent);
+            transition: var(--transition);
+            margin-top: 2px;
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-text);
+        }
+
+        .nav-menu a.active {
+            color: var(--color-text);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 2px;
+            background: var(--color-text);
+            transition: var(--transition);
+        }
+
+        /* ============================================
+           NAV ACTIONS
+           ============================================ */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .auth-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-login {
+            padding: 8px 20px;
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            font-weight: 500;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .btn-login:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .btn-register {
+            padding: 8px 20px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            font-weight: 500;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-register:hover {
+            background: var(--color-primary-light);
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            margin-left: 4px;
+        }
+
+        .cart-icon-btn {
+            background: none;
+            color: var(--color-text);
+            border: 1px solid transparent;
+            width: 44px;
+            height: 44px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .cart-icon-btn:hover {
+            border-color: var(--color-border);
+            background: var(--color-bg);
+        }
+
+        .cart-counter {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--color-accent);
+            color: var(--color-white);
+            width: 20px;
+            height: 20px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* ============================================
+           USER MENU
+           ============================================ */
+        .user-menu-dropdown {
+            position: relative;
+        }
+
+        .user-menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-family: var(--font-primary);
+            font-weight: 500;
+            color: var(--color-text-light);
+            transition: var(--transition);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .user-menu-btn:hover {
+            border-color: var(--color-border);
+            background: var(--color-bg);
+        }
+
+        .user-avatar {
+            font-size: 0.8rem;
+        }
+
+        .user-name {
+            font-size: 0.7rem;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .user-menu-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 200px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .user-menu-dropdown.active .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: var(--color-text);
+            font-size: 0.8rem;
+            transition: var(--transition);
+            font-weight: 400;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--color-bg);
+        }
+
+        .dropdown-content hr {
+            margin: 4px 0;
+            border: none;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .btn-logout {
+            color: var(--color-accent) !important;
+        }
+
+        /* ============================================
+           PAGE HERO - CONTACTO
+           ============================================ */
+        .page-hero {
+            padding: 80px 0 60px;
+            background: var(--color-dark);
+            color: var(--color-white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(to top, var(--color-dark), transparent);
+            pointer-events: none;
+        }
+
+        .page-hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-hero h1 {
+            margin-bottom: 12px;
+        }
+
+        .page-hero h1 .highlight {
+            color: var(--color-accent);
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        .contact-hero {
+            background: linear-gradient(135deg, var(--color-dark) 0%, #1A332A 100%);
+        }
+
+        /* ============================================
+           CONTACT PAGE
+           ============================================ */
+        .contact-page {
+            padding: 60px 0 80px;
+        }
+
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        /* === INFO CARD === */
+        .contact-info-card {
+            background: var(--color-white);
+            padding: 40px;
+            border: 1px solid var(--color-border);
+            position: sticky;
+            top: 100px;
+        }
+
+        .contact-info-card h3 {
+            margin-bottom: 8px;
+            color: var(--color-primary);
+        }
+
+        .contact-info-card > p {
+            color: var(--color-text-muted);
+            margin-bottom: 28px;
+            font-weight: 300;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .contact-item:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--color-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+            border: 1px solid var(--color-border);
+            color: var(--color-accent);
+        }
+
+        .contact-item h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .contact-item p,
+        .contact-item a {
+            color: var(--color-text);
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        .contact-item a:hover {
+            color: var(--color-accent);
+        }
+
+        .contact-social {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .contact-social h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .contact-social .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .contact-social .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--color-border);
+            font-size: 0.8rem;
+            transition: var(--transition);
+            color: var(--color-text-muted);
+        }
+
+        .contact-social .social-links a:hover {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        /* === FORM === */
+        .contact-form-wrapper {
+            background: var(--color-white);
+            padding: 40px;
+            border: 1px solid var(--color-border);
+        }
+
+        .contact-form-card h3 {
+            margin-bottom: 8px;
+            color: var(--color-primary);
+        }
+
+        .contact-form-card > p {
+            color: var(--color-text-muted);
+            margin-bottom: 24px;
+            font-weight: 300;
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 18px;
+        }
+
+        .contact-form .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .contact-form .form-group input,
+        .contact-form .form-group select,
+        .contact-form .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--color-border);
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            background: var(--color-white);
+            color: var(--color-text);
+        }
+
+        .contact-form .form-group input:focus,
+        .contact-form .form-group select:focus,
+        .contact-form .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.15);
+        }
+
+        .contact-form .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .contact-form .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 4px 0 20px;
+        }
+
+        .contact-form .checkbox input {
+            width: auto;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--color-accent);
+            flex-shrink: 0;
+        }
+
+        .contact-form .checkbox label {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--color-text-light);
+            text-transform: none;
+            letter-spacing: 0;
+            margin: 0;
+        }
+
+        .contact-form .checkbox label a {
+            color: var(--color-accent);
+            text-decoration: underline;
+        }
+
+        .contact-form .checkbox label a:hover {
+            color: var(--color-primary);
+        }
+
+        .form-message {
+            margin-top: 16px;
+            padding: 12px 16px;
+            display: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-message.success {
+            display: block;
+            background: var(--color-bg);
+            color: var(--color-success);
+            border: 1px solid var(--color-success);
+        }
+
+        .form-message.error {
+            display: block;
+            background: #FDF0F0;
+            color: var(--color-error);
+            border: 1px solid var(--color-error);
+        }
+
+        /* ============================================
+           MAP SECTION
+           ============================================ */
+        .map-section {
+            padding: 0 0 80px;
+        }
+
+        .map-placeholder {
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .map-content span {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .map-content h3 {
+            margin-bottom: 8px;
+            color: var(--color-primary);
+        }
+
+        .map-content p {
+            color: var(--color-text-muted);
+            font-weight: 300;
+        }
+
+        /* ============================================
+           CART PANEL
+           ============================================ */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: var(--color-white);
+            z-index: 10001;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 1px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-panel.open {
+            right: 0;
+        }
+
+        .cart-panel-header {
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-panel-header h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--color-text-muted);
+            transition: var(--transition);
+            padding: 4px 8px;
+        }
+
+        .cart-close:hover {
+            color: var(--color-text);
+            transform: rotate(90deg);
+        }
+
+        .cart-panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px;
+        }
+
+        .cart-panel-body .empty-cart {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .cart-panel-body .empty-cart span {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 16px;
+            opacity: 0.2;
+        }
+
+        .cart-panel-body .empty-cart p {
+            color: var(--color-text-muted);
+            margin: 16px 0 24px;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(45, 74, 62, 0.3);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: var(--color-dark);
+            color: rgba(255, 255, 255, 0.5);
+            padding: 60px 0 30px;
+        }
+
+        .footer-wrapper {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--color-white);
+            margin-bottom: 12px;
+        }
+
+        .footer-brand .logo .logo-image {
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer-brand .logo span {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-brand p {
+            opacity: 0.6;
+            font-size: 0.9rem;
+            font-weight: 300;
+            max-width: 280px;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .social-links a:hover {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .footer-column h4 {
+            color: var(--color-white);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            opacity: 0.6;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .footer-column ul li a:hover {
+            opacity: 1;
+            color: var(--color-accent-light);
+        }
+
+        .footer-column ul li {
+            opacity: 0.6;
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 24px;
+            text-align: center;
+            opacity: 0.3;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info-card {
+                position: static;
+            }
+
+            .footer-wrapper {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--color-white);
+                flex-direction: column;
+                padding: 100px 32px 40px;
+                gap: 20px;
+                transform: translateX(100%);
+                transition: var(--transition);
+                opacity: 0;
+                pointer-events: none;
+                overflow-y: auto;
+                justify-content: flex-start;
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .nav-menu a {
+                font-size: 1rem;
+                padding: 8px 0;
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .contact-page {
+                padding: 40px 0 60px;
+            }
+
+            .contact-form-wrapper {
+                padding: 24px 20px;
+            }
+
+            .contact-info-card {
+                padding: 24px 20px;
+            }
+
+            .contact-form .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-wrapper {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .page-hero {
+                padding: 60px 0 40px;
+            }
+
+            .map-section {
+                padding: 0 0 60px;
+            }
+
+            .map-placeholder {
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .contact-social .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- ==================== NAVBAR ==================== -->
@@ -14,26 +1094,55 @@
             <div class="nav-wrapper">
                 <div class="logo">
                     <a href="index.html">
-                        <span class="logo-icon">🌿</span>
-                        <span class="logo-text">Green Home</span>
+                        <div class="logo-image">
+                            <img src="images/logo.png" alt="Green Home">
+                        </div>
+                        <span class="logo-text">Green<span>Home</span></span>
                     </a>
                 </div>
-                <ul class="nav-menu">
+                
+                <ul class="nav-menu" id="navMenu">
                     <li><a href="index.html">Inicio</a></li>
                     <li><a href="sobre-nosotros.html">Nosotros</a></li>
                     <li><a href="productos.html">Productos</a></li>
                     <li><a href="beneficios.html">Beneficios</a></li>
                     <li><a href="galeria.html">Galería</a></li>
                     <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="contacto.html" class="active btn-contact">Contacto</a></li>
+                    <li><a href="contacto.html" class="active">Contacto</a></li>
                 </ul>
-                <div class="cart-icon-wrapper">
-                    <button class="cart-icon-btn" onclick="toggleCarrito()" aria-label="Carrito">
-                        🛒
-                        <span class="cart-counter" id="cartCounter">0</span>
-                    </button>
+
+                <div class="nav-actions" id="navActions">
+                    <div class="auth-wrapper">
+                        <div class="auth-buttons" id="authButtons">
+                            <a href="login.html" class="btn-login">Iniciar Sesión</a>
+                            <a href="registro.html" class="btn-register">Registrarse</a>
+                        </div>
+
+                        <div class="user-menu-dropdown" id="userMenu" style="display: none;">
+                            <button class="user-menu-btn" onclick="toggleUserMenu()">
+                                <span class="user-avatar">●</span>
+                                <span class="user-name" id="userNameDisplay">Usuario</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </button>
+                            <div class="dropdown-content" id="userDropdown">
+                                <a href="perfil.html">Perfil</a>
+                                <a href="mis-pedidos.html">Mis Pedidos</a>
+                                <a href="admin.html" id="adminLink" style="display: none;">Panel Admin</a>
+                                <hr>
+                                <a href="#" onclick="cerrarSesion()" class="btn-logout">Cerrar Sesión</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cart-icon-wrapper">
+                        <a href="carrito.html" class="cart-icon-btn" aria-label="Carrito">
+                            🛒
+                            <span class="cart-counter" id="cartCounter">0</span>
+                        </a>
+                    </div>
                 </div>
-                <div class="hamburger">
+
+                <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -42,26 +1151,27 @@
         </div>
     </nav>
 
-    <!-- ==================== CARRITO PANEL ==================== -->
+    <!-- ==================== CART PANEL ==================== -->
     <div class="cart-panel" id="cartPanel">
         <div class="cart-panel-header">
-            <h3>🛒 Tu Carrito</h3>
+            <h3>Carrito</h3>
             <button class="cart-close" onclick="toggleCarrito()">✕</button>
         </div>
         <div class="cart-panel-body" id="cartPanelBody">
             <div class="empty-cart">
-                <span style="font-size: 3rem;">🛒</span>
+                <span>●</span>
                 <p>Tu carrito está vacío</p>
-                <a href="productos.html" class="btn-primary" style="margin-top: 16px; display: inline-block;">Explorar productos</a>
+                <a href="productos.html" class="btn-primary" style="margin-top: 16px; display: inline-flex;">Explorar productos</a>
             </div>
         </div>
     </div>
+
     <div class="overlay" id="overlay" onclick="toggleCarrito()"></div>
 
     <!-- ==================== HERO CONTACTO ==================== -->
     <section class="page-hero contact-hero">
         <div class="container">
-            <h1>📩 Contáctanos</h1>
+            <h1>Contáctanos</h1>
             <p>¿Tienes alguna pregunta? Estamos aquí para ayudarte</p>
         </div>
     </section>
@@ -73,11 +1183,11 @@
                 <!-- Información de contacto -->
                 <div class="contact-info">
                     <div class="contact-info-card">
-                        <h3>📩 Información de contacto</h3>
+                        <h3>Información de contacto</h3>
                         <p>Estamos disponibles para resolver tus dudas y ayudarte a comenzar tu huerto</p>
                         
                         <div class="contact-item">
-                            <div class="contact-icon">📧</div>
+                            <div class="contact-icon">✉</div>
                             <div>
                                 <h4>Email</h4>
                                 <a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a>
@@ -85,7 +1195,7 @@
                         </div>
 
                         <div class="contact-item">
-                            <div class="contact-icon">📱</div>
+                            <div class="contact-icon">☎</div>
                             <div>
                                 <h4>Teléfono</h4>
                                 <a href="tel:+525512345678">+52 55 1234 5678</a>
@@ -93,7 +1203,7 @@
                         </div>
 
                         <div class="contact-item">
-                            <div class="contact-icon">📍</div>
+                            <div class="contact-icon">◉</div>
                             <div>
                                 <h4>Ubicación</h4>
                                 <p>CDMX, México</p>
@@ -101,7 +1211,7 @@
                         </div>
 
                         <div class="contact-item">
-                            <div class="contact-icon">⏰</div>
+                            <div class="contact-icon">◷</div>
                             <div>
                                 <h4>Horario de atención</h4>
                                 <p>Lunes a Viernes: 9:00 - 18:00</p>
@@ -112,22 +1222,22 @@
                         <div class="contact-social">
                             <h4>Síguenos</h4>
                             <div class="social-links">
-                                <a href="#" aria-label="Instagram">📸</a>
-                                <a href="#" aria-label="Facebook">📘</a>
-                                <a href="#" aria-label="TikTok">🎵</a>
-                                <a href="#" aria-label="YouTube">▶️</a>
+                                <a href="#" aria-label="Instagram">in</a>
+                                <a href="#" aria-label="Facebook">fb</a>
+                                <a href="#" aria-label="TikTok">tt</a>
+                                <a href="#" aria-label="YouTube">yt</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Formulario - CON FORMPREE -->
+                <!-- Formulario - CON FORMPREE INTACTO -->
                 <div class="contact-form-wrapper">
                     <div class="contact-form-card">
-                        <h3>📝 Envíanos un mensaje</h3>
+                        <h3>Envíanos un mensaje</h3>
                         <p>Completa el formulario y te responderemos lo antes posible</p>
                         
-                        <!-- FORMULARIO CON FORMPREE -->
+                        <!-- FORMULARIO CON FORMPREE - SIN MODIFICAR -->
                         <form id="contactForm" class="contact-form" 
                               action="https://formspree.io/f/mjgqvjkp" 
                               method="POST">
@@ -155,13 +1265,13 @@
                                 <label for="producto">Producto o servicio de interés *</label>
                                 <select id="producto" name="producto" required>
                                     <option value="">Selecciona una opción</option>
-                                    <option value="kit-hierbas">🌿 Kit Hierbas Aromáticas</option>
-                                    <option value="kit-verduras">🥬 Kit Mini Verduras</option>
-                                    <option value="kit-flores">🌸 Kit Flores de Temporada</option>
-                                    <option value="kit-completo">🌱 Kit Completo de Cultivo</option>
-                                    <option value="semillas">🌾 Semillas sueltas</option>
-                                    <option value="accesorios">🧤 Accesorios</option>
-                                    <option value="otro">❓ Otro</option>
+                                    <option value="kit-hierbas">Kit Hierbas Aromáticas</option>
+                                    <option value="kit-verduras">Kit Mini Verduras</option>
+                                    <option value="kit-flores">Kit Flores de Temporada</option>
+                                    <option value="kit-completo">Kit Completo de Cultivo</option>
+                                    <option value="semillas">Semillas sueltas</option>
+                                    <option value="accesorios">Accesorios</option>
+                                    <option value="otro">Otro</option>
                                 </select>
                             </div>
 
@@ -176,7 +1286,7 @@
                             </div>
 
                             <button type="submit" class="btn-primary btn-block">
-                                <span>📩 Enviar mensaje</span>
+                                <span>Enviar mensaje</span>
                                 <span>→</span>
                             </button>
 
@@ -188,12 +1298,12 @@
         </div>
     </section>
 
-    <!-- ==================== MAPA (Opcional) ==================== -->
+    <!-- ==================== MAPA ==================== -->
     <section class="map-section">
         <div class="container">
             <div class="map-placeholder">
                 <div class="map-content">
-                    <span>📍</span>
+                    <span>◉</span>
                     <h3>Visítanos</h3>
                     <p>Estamos en la CDMX, pero hacemos envíos a toda la República</p>
                 </div>
@@ -207,48 +1317,48 @@
             <div class="footer-wrapper">
                 <div class="footer-brand">
                     <div class="logo">
-                        <span class="logo-icon">🌿</span>
-                        <span class="logo-text">Green Home</span>
+                        <div class="logo-image">
+                            <img src="images/logo.png" alt="Green Home">
+                        </div>
+                        <span>Green<span>Home</span></span>
                     </div>
                     <p>Cultivando sueños verdes desde 2024</p>
                     <div class="social-links">
-                        <a href="#" aria-label="Instagram">📸</a>
-                        <a href="#" aria-label="Facebook">📘</a>
-                        <a href="#" aria-label="TikTok">🎵</a>
-                        <a href="#" aria-label="YouTube">▶️</a>
+                        <a href="#" aria-label="Instagram">in</a>
+                        <a href="#" aria-label="Facebook">fb</a>
+                        <a href="#" aria-label="TikTok">tt</a>
+                        <a href="#" aria-label="YouTube">yt</a>
                     </div>
                 </div>
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Enlaces</h4>
-                        <ul>
-                            <li><a href="index.html">Inicio</a></li>
-                            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
-                            <li><a href="productos.html">Productos</a></li>
-                            <li><a href="contacto.html">Contacto</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Soporte</h4>
-                        <ul>
-                            <li><a href="faq.html">Preguntas Frecuentes</a></li>
-                            <li><a href="#">Política de Envíos</a></li>
-                            <li><a href="#">Devoluciones</a></li>
-                            <li><a href="#">Aviso de Privacidad</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Contacto</h4>
-                        <ul>
-                            <li><a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a></li>
-                            <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
-                            <li>CDMX, México</li>
-                        </ul>
-                    </div>
+                <div class="footer-column">
+                    <h4>Enlaces</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Soporte</h4>
+                    <ul>
+                        <li><a href="faq.html">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Política de Envíos</a></li>
+                        <li><a href="#">Devoluciones</a></li>
+                        <li><a href="#">Aviso de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:hola@greenhome.mx">hola@greenhome.mx</a></li>
+                        <li><a href="tel:+525512345678">+52 55 1234 5678</a></li>
+                        <li>CDMX, México</li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Green Home. Todos los derechos reservados. 🌱</p>
+                <p>&copy; 2026 Green Home. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
